@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    {{> header }}
+
+    <div id="search-form">
+        Last name: <input type="text" name="lname" id="last-name"> First name: <input type="text" name="fname" id="first-name">
+        <button type="button" onclick="showScanResults()">Send</button>
+    </div>
+
+    <div id="results">
+        <!--<p>results should go here</p>-->
+    </div>
+
+    <div style="display:inline-block">
+        <p>SSN:</p>
+        <p id="social_security"></p>
+    </div>
+
+    <div style="display:inline-block">
+        <p>Last Name:</p>
+        <p id="l_name"></p>
+    </div>
+
+    <div style="display:inline-block">
+        <p>First Name:</p>
+        <p id="f_name"></p>
+
+    </div>
+
+    <script>
+        function showScanResults() {
+
+            var lastName = document.getElementById("last-name").value;
+            var firstName = document.getElementById("first-name").value;
+            var ajaxCall = new XMLHttpRequest();
+
+
+            ajaxCall.onreadystatechange = function () {
+                if (ajaxCall.readyState == 4 && ajaxCall.status == 200) {
+                }
+
+                console.log('ajaxCall.responseText = ');
+                console.log(ajaxCall.responseText);
+
+                var jsonParsedData = ajaxCall.responseText;
+                var jsonResponse = JSON.parse(jsonParsedData);
+                console.log('jsonResponse =');
+                console.log(jsonResponse);
+
+                var id = document.querySelector("#social_security");
+                id.innerHTML = '';
+                jsonResponse.forEach((i) => {
+                    var newDiv = document.createElement('section');
+                    newDiv.innerHTML = i['ssn']['S'];
+                    id.append(newDiv);
+                });
+
+                var id = document.querySelector("#l_name");
+                id.innerHTML = ' ';
+                jsonResponse.forEach((i) => {
+                    var newDiv = document.createElement('section');
+                    newDiv.innerHTML = i['lname']['S'];
+                    id.append(newDiv);
+                });
+
+                var id = document.querySelector("#f_name");
+                id.innerHTML = ' ';
+                jsonResponse.forEach((i) => {
+                    var newDiv = document.createElement('section');
+                    newDiv.innerHTML = i['fname']['S'];
+                    id.append(newDiv);
+                });
+            };
+            ajaxCall.open("POST", "/scan/results", true);
+            console.log('post request sent from scan.hbs')
+            ajaxCall.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            ajaxCall.send("lname=" + lastName + "&fname=" + firstName);
+        }
+    </script>
+
+</body>
+
+</html>
