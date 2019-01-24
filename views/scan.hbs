@@ -5,14 +5,19 @@
     <title>{{title}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="../stylesheets/style.css" />
+    <!--<link rel="stylesheet" href="../stylesheets/jstyle.css" />-->
 </head>
 
 <body>
     {{> header }}
 
     <div id="search-form">
-        Last name: <input type="text" name="lname" id="last-name"> First name: <input type="text" name="fname" id="first-name">
-        <button type="button" onclick="showScanResults()">Send</button>
+        SSN: <input type="text" name="ssn" id="social-security">
+        Last name: <input type="text" name="lname" id="last-name">
+        First name: <input type="text" name="fname" id="first-name">
+        <button type="button" onclick="showScanResults()">Search</button>
     </div>
 
     <div id="results">
@@ -38,10 +43,10 @@
     <script>
         function showScanResults() {
 
+            var soc = document.getElementById("social-security").value;
             var lastName = document.getElementById("last-name").value;
             var firstName = document.getElementById("first-name").value;
             var ajaxCall = new XMLHttpRequest();
-
 
             ajaxCall.onreadystatechange = function () {
                 if (ajaxCall.readyState == 4 && ajaxCall.status == 200) {
@@ -64,7 +69,7 @@
                 });
 
                 var id = document.querySelector("#l_name");
-                id.innerHTML = ' ';
+                id.innerHTML = '';
                 jsonResponse.forEach((i) => {
                     var newDiv = document.createElement('section');
                     newDiv.innerHTML = i['lname']['S'];
@@ -72,7 +77,7 @@
                 });
 
                 var id = document.querySelector("#f_name");
-                id.innerHTML = ' ';
+                id.innerHTML = '';
                 jsonResponse.forEach((i) => {
                     var newDiv = document.createElement('section');
                     newDiv.innerHTML = i['fname']['S'];
@@ -82,7 +87,7 @@
             ajaxCall.open("POST", "/scan/results", true);
             console.log('post request sent from scan.hbs')
             ajaxCall.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            ajaxCall.send("lname=" + lastName + "&fname=" + firstName);
+            ajaxCall.send("ssn=" + soc + "&lname=" + lastName + "&fname=" + firstName);
         }
     </script>
 
