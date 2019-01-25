@@ -49,40 +49,41 @@
             var ajaxCall = new XMLHttpRequest();
 
             ajaxCall.onreadystatechange = function () {
+                
                 if (ajaxCall.readyState == 4 && ajaxCall.status == 200) {
+
+                    console.log('ajaxCall.responseText = ');
+                    console.log(ajaxCall.responseText);
+
+                    var jsonParsedData = ajaxCall.responseText;
+                    var jsonResponse = JSON.parse(jsonParsedData);
+                    console.log('jsonResponse =');
+                    console.log(jsonResponse);
+
+                    var id = document.querySelector("#social_security");
+                    id.innerHTML = '';
+                    jsonResponse.forEach((i) => {
+                        var newDiv = document.createElement('section');
+                        newDiv.innerHTML = i['ssn']['S'];
+                        id.append(newDiv);
+                    });
+
+                    var id = document.querySelector("#l_name");
+                    id.innerHTML = '';
+                    jsonResponse.forEach((i) => {
+                        var newDiv = document.createElement('section');
+                        newDiv.innerHTML = i['lname']['S'];
+                        id.append(newDiv);
+                    });
+
+                    var id = document.querySelector("#f_name");
+                    id.innerHTML = '';
+                    jsonResponse.forEach((i) => {
+                        var newDiv = document.createElement('section');
+                        newDiv.innerHTML = i['fname']['S'];
+                        id.append(newDiv);
+                    });
                 }
-
-                console.log('ajaxCall.responseText = ');
-                console.log(ajaxCall.responseText);
-
-                var jsonParsedData = ajaxCall.responseText;
-                var jsonResponse = JSON.parse(jsonParsedData);
-                console.log('jsonResponse =');
-                console.log(jsonResponse);
-
-                var id = document.querySelector("#social_security");
-                id.innerHTML = '';
-                jsonResponse.forEach((i) => {
-                    var newDiv = document.createElement('section');
-                    newDiv.innerHTML = i['ssn']['S'];
-                    id.append(newDiv);
-                });
-
-                var id = document.querySelector("#l_name");
-                id.innerHTML = '';
-                jsonResponse.forEach((i) => {
-                    var newDiv = document.createElement('section');
-                    newDiv.innerHTML = i['lname']['S'];
-                    id.append(newDiv);
-                });
-
-                var id = document.querySelector("#f_name");
-                id.innerHTML = '';
-                jsonResponse.forEach((i) => {
-                    var newDiv = document.createElement('section');
-                    newDiv.innerHTML = i['fname']['S'];
-                    id.append(newDiv);
-                });
             };
             ajaxCall.open("POST", "/scan/results", true);
             console.log('post request sent from scan.hbs')

@@ -7,7 +7,8 @@ router.get('/', function (req, res, next) {
   res.render('scan', {
     title: 'DatabaseSearch'
   })
-  console.log('inside of router.get')
+  console.log('inside of router.get res.locals =');
+  console.log(res.locals);
 });
 
 //'/scan/results' is automatically assumed for '/results', so in scan.hbs, we have to send POST request
@@ -32,10 +33,14 @@ router.post('/results', function (req, res, next) {
 
   var filterExpString = []; //one element array that holds string for FilterExpression
 
+  var ssn_exp;
   var lname_exp;
   var fname_exp;
 
-
+  if (postBody["ssn"] !== '') { //if data input in html form not empty, push string for FilterExpression to filterExpArray
+    ssn_exp = "#soc_sec = :ssn";
+    filterExpArray.push(ssn_exp);
+  };
   if (postBody["lname"] !== '') { //if data input in html form not empty, push string for FilterExpression to filterExpArray
     lname_exp = "#last_name = :lname";
     filterExpArray.push(lname_exp);
@@ -95,20 +100,23 @@ router.post('/results', function (req, res, next) {
       FilterExpression: filterExpString[0]
     };
 
-    if (postBody["lname"] !== '') {
-      params["ExpressionAttributeNames"]["#last_name"] = Object.keys(postBody)[0]
-    };
-    if (postBody["fname"] !== '') {
-      params["ExpressionAttributeNames"]["#first_name"] = Object.keys(postBody)[1]
-    };
-    if (postBody["lname"] !== '') {
-      params["ExpressionAttributeValues"][":lname"] = {
+    if (postBody["ssn"] !== '') {
+      params["ExpressionAttributeNames"]["#soc_sec"] = Object.keys(postBody)[0];
+      params["ExpressionAttributeValues"][":ssn"] = {
         "S": Object.values(postBody)[0]
       }
     };
-    if (postBody["fname"] !== '') {
-      params["ExpressionAttributeValues"][":fname"] = {
+
+    if (postBody["lname"] !== '') {
+      params["ExpressionAttributeNames"]["#last_name"] = Object.keys(postBody)[1];
+      params["ExpressionAttributeValues"][":lname"] = {
         "S": Object.values(postBody)[1]
+      }
+    };
+    if (postBody["fname"] !== '') {
+      params["ExpressionAttributeNames"]["#first_name"] = Object.keys(postBody)[2];
+      params["ExpressionAttributeValues"][":fname"] = {
+        "S": Object.values(postBody)[2]
       }
     };
 
@@ -126,6 +134,9 @@ router.post('/results', function (req, res, next) {
       res.send(data.Items); //sends results of scan & filter back to client (scan-filter.html)
       });
     /**scan and filter table******************************************************************************** */
+
+    console.log('res.locals=');
+    console.log(res.locals);
   }
 });
 
