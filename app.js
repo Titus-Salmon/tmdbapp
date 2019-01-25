@@ -26,8 +26,6 @@ app.use(bodyParser.urlencoded({ //bodyParser = middleware
 
 hbs.registerPartial('header', fs.readFileSync('./views/partials/header.hbs', 'utf8'));
 hbs.registerPartials(__dirname + '/views/partials');
-
-app.set('views', path.join(__dirname, '../views'));
 /********************* t0d***************** t0d***************** t0d***************** t0d*/
 
 // view engine setup
