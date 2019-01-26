@@ -129,9 +129,12 @@ router.post('/results', function (req, res, next) {
     dyn.scan(params, function (err, data) {
       if (err) console.log(err, err.stack); // an error occurred
       //else console.log(data); // successful response --logs entire data object
-      console.log(data.Items);
+      if (data !== null){
+
+        console.log(data.Items);
       
-      res.send(data.Items); //sends results of scan & filter back to client (scan-filter.html)
+        res.send(data.Items); //sends results of scan & filter back to client (scan-filter.html)
+      }
       });
     /**scan and filter table******************************************************************************** */
 
