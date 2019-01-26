@@ -20,25 +20,15 @@
         <button type="button" onclick="showScanResults()">Search</button>
     </div>
 
-    <div id="results">
-        <!--<p>results should go here</p>-->
-    </div>
-
-    <div style="display:inline-block">
-        <p>SSN:</p>
-        <p id="social_security"></p>
-    </div>
-
-    <div style="display:inline-block">
-        <p>Last Name:</p>
-        <p id="l_name"></p>
-    </div>
-
-    <div style="display:inline-block">
-        <p>First Name:</p>
-        <p id="f_name"></p>
-
-    </div>
+    <table id="resultsTable">
+        <tr>
+            <!--When a header is clicked, run the sortTable function, with a parameter,
+            0 for sorting by SSN, 1 for sorting by Last Name, etc.:-->
+            <th onclick="sortTable(0)">SSN</th>
+            <th onclick="sortTable(1)">Last Name</th>
+            <th onclick="sortTable(2)">First Name</th>
+        </tr>
+    </table>
 
     <script>
         function showScanResults() {
@@ -49,7 +39,7 @@
             var ajaxCall = new XMLHttpRequest();
 
             ajaxCall.onreadystatechange = function () {
-                
+
                 if (ajaxCall.readyState == 4 && ajaxCall.status == 200) {
 
                     console.log('ajaxCall.responseText = ');
@@ -60,28 +50,20 @@
                     console.log('jsonResponse =');
                     console.log(jsonResponse);
 
-                    var id = document.querySelector("#social_security");
-                    id.innerHTML = '';
                     jsonResponse.forEach((i) => {
-                        var newDiv = document.createElement('section');
-                        newDiv.innerHTML = i['ssn']['S'];
-                        id.append(newDiv);
-                    });
+                        var ssn_entry = i['ssn']['S'];
+                        var lname_entry = i['lname']['S'];
+                        var fname_entry = i['fname']['S'];
 
-                    var id = document.querySelector("#l_name");
-                    id.innerHTML = '';
-                    jsonResponse.forEach((i) => {
-                        var newDiv = document.createElement('section');
-                        newDiv.innerHTML = i['lname']['S'];
-                        id.append(newDiv);
-                    });
+                        var table = document.getElementById("resultsTable");
+                        var row = table.insertRow(1);
+                        var cellSSN = row.insertCell(0);
+                        var cellLname = row.insertCell(1);
+                        var cellFname = row.insertCell(2);
 
-                    var id = document.querySelector("#f_name");
-                    id.innerHTML = '';
-                    jsonResponse.forEach((i) => {
-                        var newDiv = document.createElement('section');
-                        newDiv.innerHTML = i['fname']['S'];
-                        id.append(newDiv);
+                        cellSSN.innerHTML = ssn_entry;
+                        cellLname.innerHTML = lname_entry;
+                        cellFname.innerHTML = fname_entry;
                     });
                 }
             };
@@ -90,6 +72,113 @@
             ajaxCall.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             ajaxCall.send("ssn=" + soc + "&lname=" + lastName + "&fname=" + firstName);
         }
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("resultsTable");
+            switching = true;
+            //Set the sorting direction to ascending:
+            dir = "asc";
+            /*Make a loop that will continue until
+            no switching has been done:*/
+            while (switching) {
+                //start by saying: no switching is done:
+                switching = false;
+                rows = table.rows;
+                /*Loop through all table rows (except the
+                first, which contains table headers):*/
+                for (i = 1; i < (rows.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /*Get the two elements you want to compare,
+                    one from current row and one from the next:*/
+                    x = rows[i].getElementsByTagName("TD")[n];
+                    y = rows[i + 1].getElementsByTagName("TD")[n];
+                    /*check if the two rows should switch place,
+                    based on the direction, asc or desc:*/
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            //if so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            //if so, mark as a switch and break the loop:
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /*If a switch has been marked, make the switch
+                    and mark that a switch has been done:*/
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    //Each time a switch is done, increase this count by 1:
+                    switchcount++;
+                } else {
+                    /*If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again.*/
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        function sortListUpDn() {
+            var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
+            list = document.getElementById("sortUpDn-fname");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc";
+            // Make a loop that will continue until no switching has been done:
+            while (switching) {
+                // start by saying: no switching is done:
+                switching = false;
+                b = list.getElementsByTagName("li");
+                // Loop through all list-items:
+                for (i = 0; i < (b.length - 1); i++) {
+                    //start by saying there should be no switching:
+                    shouldSwitch = false;
+                    /* check if the next item should switch place with the current item,
+                    based on the sorting direction (asc or desc): */
+                    if (dir == "asc") {
+                        if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                            /* if next item is alphabetically lower than current item,
+                            mark as a switch and break the loop: */
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
+                            /* if next item is alphabetically higher than current item,
+                            mark as a switch and break the loop: */
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    /* If a switch has been marked, make the switch
+                    and mark that a switch has been done: */
+                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                    switching = true;
+                    // Each time a switch is done, increase switchcount by 1:
+                    switchcount++;
+                } else {
+                    /* If no switching has been done AND the direction is "asc",
+                    set the direction to "desc" and run the while loop again. */
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
     </script>
 
 </body>
