@@ -30,73 +30,74 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
       union_number: {
         'S': Object.values(postBody)[0][0]
       },
-      lname: {
+      date: {
         'S': Object.values(postBody)[0][1]
       },
-      fname: {
+      lname: {
         'S': Object.values(postBody)[0][2]
       },
-      mi: {
+      fname: {
         'S': Object.values(postBody)[0][3]
       },
-      occupation: {
+      mi: {
         'S': Object.values(postBody)[0][4]
       },
-      address: {
+      occupation: {
         'S': Object.values(postBody)[0][5]
       },
-      phone: {
+      address: {
         'S': Object.values(postBody)[0][6]
       },
-      city: {
+      phone: {
         'S': Object.values(postBody)[0][7]
       },
-      state: {
+      city: {
         'S': Object.values(postBody)[0][8]
       },
-      zip: {
+      state: {
         'S': Object.values(postBody)[0][9]
       },
-      employer: {
+      zip: {
         'S': Object.values(postBody)[0][10]
       },
-      employment_date: {
+      employer: {
         'S': Object.values(postBody)[0][11]
       },
-      employer_address: {
+      employment_date: {
         'S': Object.values(postBody)[0][12]
       },
-      employer_phone: {
+      employer_address: {
         'S': Object.values(postBody)[0][13]
       },
-      employer_city: {
+      employer_phone: {
         'S': Object.values(postBody)[0][14]
       },
-      employer_state: {
+      employer_city: {
         'S': Object.values(postBody)[0][15]
       },
-      employer_zip: {
+      employer_state: {
         'S': Object.values(postBody)[0][16]
       },
-      fee: {
+      employer_zip: {
         'S': Object.values(postBody)[0][17]
       },
-      paid_to: {
+      fee: {
         'S': Object.values(postBody)[0][18]
       },
-      dob: {
+      paid_to: {
         'S': Object.values(postBody)[0][19]
       },
-
-      membership: {
+      dob: {
+        'S': Object.values(postBody)[0][20]
+      },
+      ssn: { //'ssn' is primary key for 'teamster-application-database' table; must always be included in 'putItem' method
         'S': Object.values(postBody)[0][21]
       },
-      previous_union_number: {
+      membership: {
         'S': Object.values(postBody)[0][22]
       },
-
-      ssn: { //'ssn' is primary key for 'teamster-application-database' table; must always be included in 'putItem' method
-        'S': Object.values(postBody)[0][20]
+      previous_union_number: {
+        'S': Object.values(postBody)[0][23]
       },
     }
   };
@@ -107,7 +108,7 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
   });
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  for (n = 0; n < 23; n++) {
+  for (n = 0; n < 24; n++) {
     console.log(Object.values(postBody)[0][n]);
   }
 

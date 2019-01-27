@@ -1,5 +1,5 @@
 var inputNames = [
-    "union-number", "lname", "fname", "mi", "occupation", "address", "phone",
+    "union-number", "date", "lname", "fname", "mi", "occupation", "address", "phone",
     "city", "state", "zip", "employer", "employment-date", "employer-address",
     "employer-phone", "employer-city", "employer-state", "employer-zip", "fee",
     "paid-to", "dob", "ssn", "membership", "previous-union-number"
