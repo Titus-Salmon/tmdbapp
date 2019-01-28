@@ -3,6 +3,15 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
+input, label {
+  display:block;
+}
+
+.scan-fields {
+  float:left;
+  margin-right:5px;
+}
+
 a {
   color: #00B7FF;
 }

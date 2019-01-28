@@ -34,12 +34,20 @@ router.post('/results', function (req, res, next) {
   var filterExpString = []; //one element array that holds string for FilterExpression
 
   var ssn_exp;
+  var dob_exp;
   var lname_exp;
   var fname_exp;
+  var occ_exp;
+  var empl_exp;
+  var AppDate_exp;
 
   if (postBody["ssn"] !== '') { //if data input in html form not empty, push string for FilterExpression to filterExpArray
     ssn_exp = "#soc_sec = :ssn";
     filterExpArray.push(ssn_exp);
+  };
+  if (postBody["dob"] !== '') { //if data input in html form not empty, push string for FilterExpression to filterExpArray
+    dob_exp = "#d_o_b = :dob";
+    filterExpArray.push(dob_exp);
   };
   if (postBody["lname"] !== '') { //if data input in html form not empty, push string for FilterExpression to filterExpArray
     lname_exp = "#last_name = :lname";
@@ -48,6 +56,18 @@ router.post('/results', function (req, res, next) {
   if (postBody["fname"] !== '') {
     fname_exp = "#first_name = :fname";
     filterExpArray.push(fname_exp);
+  };
+  if (postBody["occupation"] !== '') {
+    occ_exp = "#occu_pation = :occupation";
+    filterExpArray.push(occ_exp);
+  };
+  if (postBody["employer"] !== '') {
+    empl_exp = "#empl_oyer = :employer";
+    filterExpArray.push(empl_exp);
+  };
+  if (postBody["date"] !== '') {
+    AppDate_exp = "#app_date = :date";
+    filterExpArray.push(AppDate_exp);
   };
 
   console.log('filterExpArray.length =' + filterExpArray.length)
@@ -83,7 +103,7 @@ router.post('/results', function (req, res, next) {
 
   {
     var params = {
-      TableName: 'teamster-application-database',
+      TableName: 'teamster-application-db',
       /* required */
       ExpressionAttributeNames: {
         //"#last_name": Object.keys(postBody)[0], //lname
@@ -106,17 +126,40 @@ router.post('/results', function (req, res, next) {
         "S": Object.values(postBody)[0]
       }
     };
-
-    if (postBody["lname"] !== '') {
-      params["ExpressionAttributeNames"]["#last_name"] = Object.keys(postBody)[1];
-      params["ExpressionAttributeValues"][":lname"] = {
+    if (postBody["dob"] !== '') {
+      params["ExpressionAttributeNames"]["#d_o_b"] = Object.keys(postBody)[1];
+      params["ExpressionAttributeValues"][":dob"] = {
         "S": Object.values(postBody)[1]
       }
     };
-    if (postBody["fname"] !== '') {
-      params["ExpressionAttributeNames"]["#first_name"] = Object.keys(postBody)[2];
-      params["ExpressionAttributeValues"][":fname"] = {
+    if (postBody["lname"] !== '') {
+      params["ExpressionAttributeNames"]["#last_name"] = Object.keys(postBody)[2];
+      params["ExpressionAttributeValues"][":lname"] = {
         "S": Object.values(postBody)[2]
+      }
+    };
+    if (postBody["fname"] !== '') {
+      params["ExpressionAttributeNames"]["#first_name"] = Object.keys(postBody)[3];
+      params["ExpressionAttributeValues"][":fname"] = {
+        "S": Object.values(postBody)[3]
+      }
+    };
+    if (postBody["occupation"] !== '') {
+      params["ExpressionAttributeNames"]["#occu_pation"] = Object.keys(postBody)[4];
+      params["ExpressionAttributeValues"][":occupation"] = {
+        "S": Object.values(postBody)[4]
+      }
+    };
+    if (postBody["employer"] !== '') {
+      params["ExpressionAttributeNames"]["#empl_oyer"] = Object.keys(postBody)[5];
+      params["ExpressionAttributeValues"][":employer"] = {
+        "S": Object.values(postBody)[5]
+      }
+    };
+    if (postBody["date"] !== '') {
+      params["ExpressionAttributeNames"]["#app_date"] = Object.keys(postBody)[6];
+      params["ExpressionAttributeValues"][":date"] = {
+        "S": Object.values(postBody)[6]
       }
     };
 

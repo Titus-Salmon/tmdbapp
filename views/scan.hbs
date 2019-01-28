@@ -14,10 +14,38 @@
     {{> header }}
 
     <div id="search-form">
-        SSN: <input type="text" name="ssn" id="social-security">
-        Last name: <input type="text" name="lname" id="last-name">
-        First name: <input type="text" name="fname" id="first-name">
-        <button type="button" onclick="showScanResults()">Search</button>
+        <div class="scan-fields">
+            <label for="social-security">SSN</label>
+            <input id="social-security" type="text" name="ssn">
+        </div>
+        <div class="scan-fields">
+            <label for="dob">DOB</label>
+            <input id="dob" type="text" name="dob">
+        </div>
+        <div class="scan-fields">
+            <label for="last-name">Last Name</label>
+            <input id="last-name" type="text" name="lname">
+        </div>
+        <div class="scan-fields">
+            <label for="first-name">First Name</label>
+            <input id="first-name" type="text" name="fname">
+        </div>
+        <div class="scan-fields">
+            <label for="occupation">Occupation</label>
+            <input id="occupation" type="text" name="occupation">
+        </div>
+        <div class="scan-fields">
+            <label for="emp">Employer</label>
+            <input id="emp" type="text" name="employer">
+        </div>
+        <div class="scan-fields">
+            <label for="application-date">Application Date</label>
+            <input id="application-date" type="text" name="date">
+        </div>
+        
+        <div class="scan-fields">
+            <button type="button" style="margin-top:1.2em" onclick="showScanResults()">Search</button>
+        </div>
     </div>
 
     <table id="resultsTable">
@@ -25,8 +53,12 @@
             <!--When a header is clicked, run the sortTable function, with a parameter,
             0 for sorting by SSN, 1 for sorting by Last Name, etc.:-->
             <th onclick="sortTable(0)">SSN</th>
-            <th onclick="sortTable(1)">Last Name</th>
-            <th onclick="sortTable(2)">First Name</th>
+            <th onclick="sortTable(1)">DOB</th>
+            <th onclick="sortTable(2)">Last Name</th>
+            <th onclick="sortTable(3)">First Name</th>
+            <th onclick="sortTable(4)">Occupation</th>
+            <th onclick="sortTable(5)">Employer</th>
+            <th onclick="sortTable(6)">Application Date</th>
         </tr>
     </table>
 
@@ -34,8 +66,13 @@
         function showScanResults() {
 
             var soc = document.getElementById("social-security").value;
+            var dob = document.getElementById("dob").value;
             var lastName = document.getElementById("last-name").value;
             var firstName = document.getElementById("first-name").value;
+            var occ = document.getElementById("occupation").value;
+            var empl = document.getElementById("emp").value;
+            var appDate = document.getElementById("application-date").value;
+
             var ajaxCall = new XMLHttpRequest();
 
             ajaxCall.onreadystatechange = function () {
@@ -51,26 +88,38 @@
                     console.log(jsonResponse);
 
                     jsonResponse.forEach((i) => {
+                        var dob_entry = i['dob']['S'];
                         var ssn_entry = i['ssn']['S'];
                         var lname_entry = i['lname']['S'];
                         var fname_entry = i['fname']['S'];
+                        var occ_entry = i['occupation']['S'];
+                        var empl_entry = i['employer']['S'];
+                        var appDate_entry = i['date']['S'];
 
                         var table = document.getElementById("resultsTable");
                         var row = table.insertRow(1);
                         var cellSSN = row.insertCell(0);
-                        var cellLname = row.insertCell(1);
-                        var cellFname = row.insertCell(2);
+                        var cellDOB = row.insertCell(1);
+                        var cellLname = row.insertCell(2);
+                        var cellFname = row.insertCell(3);
+                        var cellOcc = row.insertCell(4);
+                        var cellEmp = row.insertCell(5);
+                        var cellAppDate = row.insertCell(6);
 
                         cellSSN.innerHTML = ssn_entry;
+                        cellDOB.innerHTML = dob_entry;
                         cellLname.innerHTML = lname_entry;
                         cellFname.innerHTML = fname_entry;
+                        cellOcc.innerHTML = occ_entry;
+                        cellEmp.innerHTML = empl_entry;
+                        cellAppDate.innerHTML = appDate_entry;
                     });
                 }
             };
             ajaxCall.open("POST", "/scan/results", true);
             console.log('post request sent from scan.hbs')
             ajaxCall.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            ajaxCall.send("ssn=" + soc + "&lname=" + lastName + "&fname=" + firstName);
+            ajaxCall.send("ssn=" + soc + "&dob=" + dob + "&lname=" + lastName + "&fname=" + firstName + "&occupation=" + occ + "&employer=" + empl + "&date=" + appDate);
         }
 
         function sortTable(n) {

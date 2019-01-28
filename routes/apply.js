@@ -25,7 +25,7 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
   });
 
   var params = {
-    TableName: "teamster-application-database",
+    TableName: "teamster-application-db",
     Item: { // a map of attribute name to AttributeValue
       union_number: {
         'S': Object.values(postBody)[0][0]
