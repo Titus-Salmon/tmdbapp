@@ -1,22 +1,22 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET apply page. */
+/* on browser's GET request, render apply page. */
 router.get('/', function (req, res, next) {
   res.render('apply', {
     title: 'Application Form'
   });
 });
 
-//app.get('/', (request, response) => response.sendFile(`${path.join(__dirname, '../index-form-post-ddb.html')}`)); //(__dirname, '../) goes one folder up from current location 
-
-router.post('/formPost', (req, res, next) => { //take POST request data from teamster apply page & put into database table
+router.post('/formPost', (req, res, next) => { //take POST request data from teamster apply page &:
+  //check to see if ssn entered already exists in db, & if not:
+  //put POST request data into database table
   const postBody = req.body;
 
   console.log('Object.values(postBody)[0][21] =');
   console.log(Object.values(postBody)[0][21]); //social security number
 
-  //the following puts 'postBody' json into dynamodb database/////////////////////////////////////////
+  //the following puts 'postBody' json into dynamodb database, IF ssn not duplicated/////////////////////////////////////////
   //can/should this be made more modular? <--maybe not...
   var AWS = require('aws-sdk');
   var dyn = new AWS.DynamoDB({
@@ -50,7 +50,7 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
         console.log('undefined value');
         console.log('this social security # does not exist in database');
         console.log('therefore entry is being added to database');
-       
+
         var params = {
           TableName: "teamster-application-db",
           Item: { // a map of attribute name to AttributeValue
@@ -144,13 +144,16 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
 
         //[2b] ELSE, if ssn DOES exist in database
       } else {
+
+        res.render('ssn-error', {
+          title: 'SSN Exists'
+        });
         console.log('THIS SSN ALREADY EXYSTS IN DB');
         console.log('THEREFORE THIS ATTEMPTED ENTRY NOT ADDED TO DB');
         console.log('scan results =')
         console.log(data.Items);
         console.log('scan results2 =')
         console.log(Object.values(data.Items)[0]['ssn']['S']);
-        
       }
     }
   });

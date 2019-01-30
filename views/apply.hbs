@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 
-    <script src="../javascripts/script.js"></script>
+    <!--<script src="../javascripts/script.js"></script>-->
     <!--EXPRESS already adds ../public so don't have to have that in path-->
-    <script src="../javascripts/document.js"></script>
-    <script src="../javascripts/jspdf.min.js"></script>
+    <!--<script src="../javascripts/document.js"></script>-->
+    <!--<script src="../javascripts/jspdf.min.js"></script>-->
 
+    <link rel="stylesheet" href="../stylesheets/style.css" />
     <link rel="stylesheet" href="../stylesheets/jstyle.css" />
+
 
     <script type="text/javascript">
         function SetDate() {
@@ -31,79 +33,83 @@
 
 </head>
 
-<body>
+<body onload="SetDate();">
     {{> header }}
 
     <div id="container">
 
-        <form action="/apply/formPost" method="POST" class="main center depth">
+        <form action="/apply/formPost" method="POST" class="main center depth" name="application">
             <img src="../images/logo.png" class="center w-10 stackable-s" />
             <h3 class="text-center">Application and Notice For Membership in Local Union No.</h3>
             <input type="number" placeholder="Union Number" class="w-10 center stackable-xs" name="postBodyArray"
                 required value="89" />
             <h4 class="text-center stackable-m">Affiliated With the International Brotherhood of Teamsters</h4>
 
-            <input type="text" id="formDate" name="postBodyArray" required/>
+            <input type="date" id="formDate" name="postBodyArray" required />
 
+            <h3 class="text-center">Name & Occupation</h3>
+            <input type="text" placeholder="Last Name" class="formItem w-33 stackable-xs" name="postBodyArray" required
+                value="Smith" />
+            <input type="text" placeholder="First Name" class="formItem w-33 stackable-xs" name="postBodyArray"
+                required value="John" />
+            <input type="text" placeholder="Middle Initial" class="formItem w-33 stackable-s" name="postBodyArray"
+                required value="F" />
+            <input type="text" placeholder="Occupation" class="formItem w-100 stackable-s" name="postBodyArray"
+                required value="Dog Walker" />
 
-            <body onload="SetDate();">
-                
-                <h3 class="text-center">Name & Occupation</h3>
-                <input type="text" placeholder="Last Name" class="formItem w-33 stackable-xs" name="postBodyArray"
-                    required value="Smith" />
-                <input type="text" placeholder="First Name" class="formItem w-33 stackable-xs" name="postBodyArray"
-                    required value="John" />
-                <input type="text" placeholder="Middle Initial" class="formItem w-33 stackable-s" name="postBodyArray"
-                    required value="F" />
-                <input type="text" placeholder="Occupation" class="formItem w-100 stackable-s" name="postBodyArray"
-                    required value="Dog Walker" />
+            <h3 class="text-center">Contact Information</h3>
+            <input type="text" placeholder="Street Address" class="formItem w-75" name="postBodyArray" required value="123 Street Rd." />
+            <input type="text" placeholder="Phone Number" class="formItem w-25 stackable-s" name="postBodyArray"
+                required value="(555)555-5555" />
+            <input type="text" placeholder="City" class="formItem w-33 stackable-xs" name="postBodyArray" required
+                value="Louisville" />
+            <input type="text" placeholder="State" class="formItem w-33 stackable-xs" name="postBodyArray" required
+                value="Kentucky" />
+            <input type="text" placeholder="Zip Code" class="formItem w-33 stackable-s" name="postBodyArray" required
+                value="96443" />
 
-                <h3 class="text-center">Contact Information</h3>
-                <input type="text" placeholder="Street Address" class="formItem w-75" name="postBodyArray" required
-                    value="123 Street Rd." />
-                <input type="text" placeholder="Phone Number" class="formItem w-25 stackable-s" name="postBodyArray"
-                    required value="(555)555-5555" />
-                <input type="text" placeholder="City" class="formItem w-33 stackable-xs" name="postBodyArray" required
-                    value="Louisville" />
-                <input type="text" placeholder="State" class="formItem w-33 stackable-xs" name="postBodyArray" required
-                    value="Kentucky" />
-                <input type="text" placeholder="Zip Code" class="formItem w-33 stackable-s" name="postBodyArray"
-                    required value="96443" />
+            <h3 class="text-center">Employer</h3>
+            <input type="text" placeholder="Employer" class="formItem w-75 stackable-xs" name="postBodyArray" required
+                value="Dog Walkers Inc." />
+            <input type="date" placeholder="Employment Date (MM-DD-YYYY)" class="formItem w-25 stackable-xs" name="postBodyArray"
+                required value="11-20-2018" />
+            <input type="text" placeholder="Employer Street Address" class="formItem w-75" name="postBodyArray"
+                required value="456 Passage Wy." />
+            <input type="text" placeholder="Employer Phone Number" class="formItem w-25 stackable-s" name="postBodyArray"
+                required value="(111)111-1111" />
+            <input type="text" placeholder="Employer City" class="formItem w-33 stackable-xs" name="postBodyArray"
+                required value="Louisville" />
+            <input type="text" placeholder="Employer State" class="formItem w-33 stackable-xs" name="postBodyArray"
+                required value="Kentucky" />
+            <input type="text" placeholder="Employer Zip Code" class="formItem w-33 stackable-s" name="postBodyArray"
+                required value="40222" />
 
-                <h3 class="text-center">Employer</h3>
-                <input type="text" placeholder="Employer" class="formItem w-75 stackable-xs" name="postBodyArray"
-                    required value="Dog Walkers Inc." />
-                <input type="text" placeholder="Employment Date (MM-DD-YYYY)" class="formItem w-25 stackable-xs" name="postBodyArray"
-                    required value="11-20-2018" />
-                <input type="text" placeholder="Employer Street Address" class="formItem w-75" name="postBodyArray"
-                    required value="456 Passage Wy." />
-                <input type="text" placeholder="Employer Phone Number" class="formItem w-25 stackable-s" name="postBodyArray"
-                    required value="(111)111-1111" />
-                <input type="text" placeholder="Employer City" class="formItem w-33 stackable-xs" name="postBodyArray"
-                    required value="Louisville" />
-                <input type="text" placeholder="Employer State" class="formItem w-33 stackable-xs" name="postBodyArray"
-                    required value="Kentucky" />
-                <input type="text" placeholder="Employer Zip Code" class="formItem w-33 stackable-s" name="postBodyArray"
-                    required value="40222" />
+            <h3 class="text-center">Fee</h3>
+            <input type="number" placeholder="Initiation Fee (USD)" class="formItem w-25 stackable-xs" name="postBodyArray"
+                required value="100" />
+            <input type="text" placeholder="Paid To..." class="formItem w-75 stackable-s" name="postBodyArray" required
+                value="Jack Thursby" />
 
-                <h3 class="text-center">Fee</h3>
-                <input type="number" placeholder="Initiation Fee (USD)" class="formItem w-25 stackable-xs" name="postBodyArray"
-                    required value="100" />
-                <input type="text" placeholder="Paid To..." class="formItem w-75 stackable-s" name="postBodyArray"
-                    required value="Jack Thursby" />
+            <h3 class="text-center">Personal Information</h3>
 
-                <h3 class="text-center">Personal Information</h3>
-                <input type="text" placeholder="Date of Birth" class="formItem w-50 stackable-s" name="postBodyArray"
-                    required value="03-03-1903" />
-                <input type="text" placeholder="Social Security Number" class="formItem w-50 stackable-xs" name="postBodyArray"
-                    required value="123-11-2222" />
-                <p class="formItem inline-margin-1">Have you ever been a member of the local Teamster Union?</p>
-                <input type="text" placeholder="yes or no" name="postBodyArray" class="stackable-xs" required value=""><br><br>
-                <p class="formItem inline-margin-1">If so, what Local Union Number?</p>
-                <input type="text" placeholder="enter Union Number here, or &ldquo;NA&rdquo; if not applicable" class="formItem w-50 stackable-s"
-                    name="postBodyArray" required value="" /><br>
+            <div class="scan-fields formItem w-50 stackable-s">
+                <label for="d-o-b">Date of Birth</label>
+                <input type="date" placeholder="Date of Birth" name="postBodyArray" required id="d-o-b" />
+            </div>
+            <div class="scan-fields formItem w-50 stackable-s">
+                <label for="s-s-n">Social Security Number</label>
+                <input type="text" placeholder="Social Security Number" name="postBodyArray" required value="123-11-2222"
+                    id="s-s-n" />
+            </div>
 
-                <button class="center">Submit</button>
+            <p class="formItem inline-margin-1">Have you ever been a member of the local Teamster Union?</p>
+            <input type="text" placeholder="yes or no" name="postBodyArray" class="stackable-xs" required value=""><br><br>
+            <p class="formItem inline-margin-1">If so, what Local Union Number?</p>
+            <input type="text" placeholder="enter Union Number here, or &ldquo;NA&rdquo; if not applicable" class="formItem w-50 stackable-s"
+                name="postBodyArray" required value="" />
+            <br>
+            <button class="center">Submit</button>
+
         </form>
     </div>
 </body>

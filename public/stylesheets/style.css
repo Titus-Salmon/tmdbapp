@@ -1,6 +1,12 @@
 body {
-  padding: 50px;
+  /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 input, label {
@@ -16,30 +22,6 @@ a {
   color: #00B7FF;
 }
 
-.w-10 {
-  width:10%;
-}
-.w-25 {
-  width:25%;
-}
-.w-33 {
-  width: 32%;
-}
-.w-50 {
-  width:49%;
-}
-.w-75 {
-  width:74%;
-}
-.w-80 {
-  width:80%;
-}
-.w-90 {
-  width:90%;
-}
-.w-100 {
-  width:100%;
-}
 
 table {
   border-spacing: 0;
@@ -58,4 +40,8 @@ th, td {
 
 tr:nth-child(even) {
   background-color: #f2f2f2
+}
+
+.w-10-all {
+  width:10%;
 }
