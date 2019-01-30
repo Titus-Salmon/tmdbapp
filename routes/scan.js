@@ -117,7 +117,10 @@ router.post('/results', function (req, res, next) {
         //  "S": Object.values(postBody)[1] //John
         //},
       },
-      Limit: 13, //sets the # of scan results returned (use for pagination)
+      Limit: 13, //sets the # of items scanned from entire database
+      //normally, this paramater would not be used, but i'm currently using it
+      //to test if pagination is working.
+      //COMMENT Limit PARAMETER OUT WHEN PAGINATION IS WORKING
       FilterExpression: filterExpString[0]
     };
 
@@ -177,10 +180,40 @@ router.post('/results', function (req, res, next) {
 
         console.log('data.Items=');
         console.log(data.Items);
+
+        console.log('(data.Items)[0][\'ssn\'][\'S\']=');
+        console.log((data.Items)[0]['ssn']['S']);
+
+        console.log('(data.Items)[1][\'ssn\'][\'S\']=');
+        console.log((data.Items)[1]['ssn']['S']);
+
         console.log('data.ScannedCount=');
         console.log(data.ScannedCount);
+
         console.log('data.LastEvaluatedKey=');
         console.log(data.LastEvaluatedKey);
+        console.log('(data.LastEvaluatedKey))[\'ssn\'][\'S\']=');
+        console.log((data.LastEvaluatedKey)['ssn']['S']);
+
+        function findLastScanResult(){
+          for (i=0; i<(data.Items.length); i++) {
+            if ((data.Items)[i]['ssn']['S'] == (data.LastEvaluatedKey)['ssn']['S']){
+              console.log('last scan result == last evaluated key');
+              console.log((data.Items)[i]['ssn']['S']);
+            }
+          }
+        }
+        findLastScanResult();
+
+        //(data.Items).forEach(findLastScanResult);
+
+/*
+        (data.Items).forEach((i)=>{
+          if((data.Items)[i]['ssn']['S'] == (data.LastEvaluatedKey)['ssn']['S']){
+            console.log('last scan result == last evaluated key')
+          }
+        });
+*/
 
         res.send(data.Items); //sends results of scan & filter back to client (scan-filter.html)
       }
