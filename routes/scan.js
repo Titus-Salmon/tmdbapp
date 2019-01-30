@@ -117,6 +117,7 @@ router.post('/results', function (req, res, next) {
         //  "S": Object.values(postBody)[1] //John
         //},
       },
+      Limit: 13, //sets the # of scan results returned (use for pagination)
       FilterExpression: filterExpString[0]
     };
 
@@ -172,13 +173,18 @@ router.post('/results', function (req, res, next) {
     dyn.scan(params, function (err, data) {
       if (err) console.log(err, err.stack); // an error occurred
       //else console.log(data); // successful response --logs entire data object
-      if (data !== null){
+      if (data !== null) {
 
+        console.log('data.Items=');
         console.log(data.Items);
-      
+        console.log('data.ScannedCount=');
+        console.log(data.ScannedCount);
+        console.log('data.LastEvaluatedKey=');
+        console.log(data.LastEvaluatedKey);
+
         res.send(data.Items); //sends results of scan & filter back to client (scan-filter.html)
       }
-      });
+    });
     /**scan and filter table******************************************************************************** */
 
     console.log('res.locals=');
