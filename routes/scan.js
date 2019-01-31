@@ -11,16 +11,19 @@ router.get('/', function (req, res, next) {
   console.log(res.locals);
 });
 
+//**Take POST request from browser & send POST response back after scanning, filtering & paginating through results*/
 //'/scan/results' is automatically assumed for '/results', so in scan.hbs, we have to send POST request
 //to /scan/results ... confusing, but critical to understand.
 router.post('/results', function (req, res, next) {
   const postBody = req.body; //request.body is made by bodyparser.urlencoded, which parses the http message for sent data
-
+  console.log('postBody=');
   console.log(postBody);
+  console.log('postBody[\"lname\"]');
   console.log(postBody["lname"]);
+  console.log('postBody[\"fname\"]');
   console.log(postBody["fname"]);
 
-  /**scan and filter table******************************************************************************** */
+  /**SCAN and FILTER and PAGINATE(server-side) table******************************************************************************** */
   var AWS = require('aws-sdk');
   var dyn = new AWS.DynamoDB({
     region: 'localhost',
@@ -29,9 +32,11 @@ router.post('/results', function (req, res, next) {
     secretAccessKey: 'DEFAULT_SECRET' // needed if you don't have aws credentials at all in env
   });
 
-  var filterExpArray = []; // base array that holds POST data (input from html form) for FilterExpression
-
+  var filterExpArray = []; // base array that holds POST data (input from hbs template) for FilterExpression
   var filterExpString = []; //one element array that holds string for FilterExpression
+
+  var scanAccumulator = []; // base array that holds response POST data (from database; this file)
+  //to be sent back to browser
 
   var ssn_exp;
   var dob_exp;
@@ -120,7 +125,11 @@ router.post('/results', function (req, res, next) {
       Limit: 13, //sets the # of items scanned from entire database
       //normally, this paramater would not be used, but i'm currently using it
       //to test if pagination is working.
-      //COMMENT Limit PARAMETER OUT WHEN PAGINATION IS WORKING
+      /******************************************************* *************/
+      /******************************************************* *************/
+      //**** */COMMENT Limit PARAMETER OUT WHEN PAGINATION IS WORKING *****//
+      /********************************************************** **********/
+      /********************************************************** **********/
       FilterExpression: filterExpString[0]
     };
 
@@ -172,56 +181,39 @@ router.post('/results', function (req, res, next) {
     console.log('params["FilterExpression"] = ' + params["FilterExpression"]);
     console.log('params = ' + params); //{ '#last_name': 'lname', '#first_name': 'fname' }
 
+//************************************************************************************************ */
+//**BEGIN modified dynamodb basic scan to account for server-side pagination ***********************/
+    dyn.scan(params, function scanUntilDone(err, data) {
+      if (err) {
+        console.log(err, err.stack);
+      } else {
+        // do something with this page of 0-13 results
+        if (data.LastEvaluatedKey) { //if there is a LastEvaluatedKey
+          params.ExclusiveStartKey = data.LastEvaluatedKey;
+          dyn.scan(params, scanUntilDone); //keep scanning through subsequent paginations
 
-    dyn.scan(params, function (err, data) {
-      if (err) console.log(err, err.stack); // an error occurred
-      //else console.log(data); // successful response --logs entire data object
-      if (data !== null) {
+          scanAccumulator.push(data.Items); //add subsequent rounds of scan results to scanAccumulator
+          //(AFTER LastEvaluatedKey exists)
 
-        console.log('data.Items=');
-        console.log(data.Items);
-
-        console.log('(data.Items)[0][\'ssn\'][\'S\']=');
-        console.log((data.Items)[0]['ssn']['S']);
-
-        console.log('(data.Items)[1][\'ssn\'][\'S\']=');
-        console.log((data.Items)[1]['ssn']['S']);
-
-        console.log('data.ScannedCount=');
-        console.log(data.ScannedCount);
-
-        console.log('data.LastEvaluatedKey=');
-        console.log(data.LastEvaluatedKey);
-        console.log('(data.LastEvaluatedKey))[\'ssn\'][\'S\']=');
-        console.log((data.LastEvaluatedKey)['ssn']['S']);
-
-        function findLastScanResult(){
-          for (i=0; i<(data.Items.length); i++) {
-            if ((data.Items)[i]['ssn']['S'] == (data.LastEvaluatedKey)['ssn']['S']){
-              console.log('last scan result == last evaluated key');
-              console.log((data.Items)[i]['ssn']['S']);
-            }
+        } else {
+          // all results processed. done
+          scanAccumulator.push(data.Items); //add 1st round of scan results to scanAccumulator
+          //(BEFORE there is any LastEvaluatedKey)
+          for (int = 0; int < (scanAccumulator.length); int++) {
+            console.log((scanAccumulator.length - 1) - (int));
+            console.log('scanAccumulator[(scanAccumulator.length-1) - (int)]');
+            console.log(scanAccumulator[(scanAccumulator.length - 1) - (int)]);
+            //res.send(scanAccumulator[(scanAccumulator.length - 1) - (int)]);
           }
+          console.log('scanAccumulator=');
+          console.log(scanAccumulator);
+          //console.log(JSON.parse(scanAccumulator));
+          res.send(scanAccumulator);
         }
-        findLastScanResult();
-
-        //(data.Items).forEach(findLastScanResult);
-
-/*
-        (data.Items).forEach((i)=>{
-          if((data.Items)[i]['ssn']['S'] == (data.LastEvaluatedKey)['ssn']['S']){
-            console.log('last scan result == last evaluated key')
-          }
-        });
-*/
-
-        res.send(data.Items); //sends results of scan & filter back to client (scan-filter.html)
       }
     });
-    /**scan and filter table******************************************************************************** */
-
-    console.log('res.locals=');
-    console.log(res.locals);
+    //**END modified dynamodb basic scan to account for server-side pagination ***********************/
+    //************************************************************************************************ */
   }
 });
 
