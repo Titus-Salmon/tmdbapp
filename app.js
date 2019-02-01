@@ -19,6 +19,8 @@ const bodyParser = require('body-parser');
 const hbs = require('hbs');
 const fs = require('fs');
 
+
+
 app.use(helmet());
 app.use(bodyParser.urlencoded({ //bodyParser = middleware
     extended: false
@@ -27,6 +29,7 @@ app.use(bodyParser.urlencoded({ //bodyParser = middleware
 hbs.registerPartial('header', fs.readFileSync('./views/partials/header.hbs', 'utf8'));
 hbs.registerPartials(__dirname + '/views/partials');
 /********************* t0d***************** t0d***************** t0d***************** t0d*/
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

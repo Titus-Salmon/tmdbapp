@@ -1,14 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET scan page. */
+/* render scan.hbs when GET request automatically generated from browser scan page. */
 // '/scan' is automatically assumed for '/'
 router.get('/', function (req, res, next) {
   res.render('scan', {
     title: 'DatabaseSearch'
-  })
-  console.log('inside of router.get res.locals =');
-  console.log(res.locals);
+  });
 });
 
 //**Take POST request from browser & send POST response back after scanning, filtering & paginating through results*/
@@ -181,8 +179,8 @@ router.post('/results', function (req, res, next) {
     console.log('params["FilterExpression"] = ' + params["FilterExpression"]);
     console.log('params = ' + params); //{ '#last_name': 'lname', '#first_name': 'fname' }
 
-//************************************************************************************************ */
-//**BEGIN modified dynamodb basic scan to account for server-side pagination ***********************/
+    //************************************************************************************************ */
+    //**BEGIN modified dynamodb basic scan to account for server-side pagination ***********************/
     dyn.scan(params, function scanUntilDone(err, data) {
       if (err) {
         console.log(err, err.stack);
