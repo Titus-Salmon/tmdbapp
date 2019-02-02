@@ -2,20 +2,22 @@ body {
   /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
-
+/*
 .clearfix::after {
   content: "";
   clear: both;
   display: table;
 }
+*/
 
-input, label {
-  display:block;
+.input-class,
+.label-class {
+  display: block;
 }
 
 .scan-fields {
-  float:left;
-  margin-right:5px;
+  float: left;
+  margin-right: 5px;
 }
 
 a {
@@ -33,7 +35,8 @@ th {
   cursor: pointer;
 }
 
-th, td {
+th,
+td {
   text-align: left;
   padding: 16px;
 }
@@ -43,5 +46,23 @@ tr:nth-child(even) {
 }
 
 .w-10-all {
-  width:10%;
+  width: 10%;
 }
+
+/*******pagination styles*******************************/
+/*
+.events-section__main-event {
+  height: 50px;
+  width: 100%;
+  background-color: red;
+  margin-bottom: 10px;
+  font-size: 20px;
+  text-align: center;
+  color: white;
+}
+
+.not-visible {
+  display: none;
+}
+*/
+/*******pagination styles*******************************/

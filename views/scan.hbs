@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../stylesheets/style.css" />
 
     <!--<link rel="stylesheet" href="../stylesheets/jstyle.css" />-->
+    <!--<script src="javascripts/paginate2-t0d.js"></script>-->
+    <script src="tablefilter/dist/tablefilter/tablefilter.js"></script>
 
 </head>
 
@@ -17,53 +19,53 @@
 
     <div id="search-form">
         <div class="scan-fields">
-            <label for="social-security">SSN</label>
-            <input id="social-security" type="text" name="ssn">
+            <label class="label-class" for="social-security">SSN</label>
+            <input class="input-class" id="social-security" type="text" name="ssn">
         </div>
         <div class="scan-fields">
-            <label for="dob">DOB</label>
-            <input id="dob" type="date" name="dob">
+            <label class="label-class" for="dob">DOB</label>
+            <input class="input-class" id="dob" type="date" name="dob">
         </div>
         <div class="scan-fields">
-            <label for="last-name">Last Name</label>
-            <input id="last-name" type="text" name="lname">
+            <label class="label-class" for="last-name">Last Name</label>
+            <input class="input-class" id="last-name" type="text" name="lname">
         </div>
         <div class="scan-fields">
-            <label for="first-name">First Name</label>
-            <input id="first-name" type="text" name="fname">
+            <label class="label-class" for="first-name">First Name</label>
+            <input class="input-class" id="first-name" type="text" name="fname">
         </div>
         <div class="scan-fields">
-            <label for="occupation">Occupation</label>
-            <input id="occupation" type="text" name="occupation">
+            <label class="label-class" for="occupation">Occupation</label>
+            <input class="input-class" id="occupation" type="text" name="occupation">
         </div>
         <div class="scan-fields">
-            <label for="emp">Employer</label>
-            <input id="emp" type="text" name="employer">
+            <label class="label-class" for="emp">Employer</label>
+            <input class="input-class" id="emp" type="text" name="employer">
         </div>
         <div class="scan-fields">
-            <label for="application-date">Application Date</label>
-            <input id="application-date" type="date" name="date">
+            <label class="label-class" for="application-date">Application Date</label>
+            <input class="input-class" id="application-date" type="date" name="date">
         </div>
 
         <div class="scan-fields">
             <button type="button" style="margin-top:1.2em" onclick="clearTable();showScanResults()">Search</button>
         </div>
     </div>
-
+   
     <table id="resultsTable">
         <thead>
             <tr style="background-color: #f2f2f2 !important">
-                <th onclick="sortTable(0)">SSN</th>
-                <th onclick="sortTable(1)">DOB</th>
-                <th onclick="sortTable(2)">Last Name</th>
-                <th onclick="sortTable(3)">First Name</th>
-                <th onclick="sortTable(4)">Occupation</th>
-                <th onclick="sortTable(5)">Employer</th>
-                <th onclick="sortTable(6)">Application Date</th>
+                <th>SSN</th>
+                <th>DOB</th>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>Occupation</th>
+                <th>Employer</th>
+                <th>Application Date</th>
             </tr>
         </thead>
         <tbody id="resultsTableBody">
-            <tr style="display:none">
+            <tr>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -71,29 +73,13 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                
             </tr>
         </tbody>
     </table>
 
-    <!--<script src="tablefilter/dist/tablefilter/tablefilter.js"></script>-->
-    <!--<script src="tablefilter/pagination-t0d.js"></script>-->
-    <!--
-    <link rel="stylesheet" type="text/css" href="../public/tablefilter/dist/tablefilter/style/tablefilter.css" />
-    <script src="tablefilter/dist/tablefilter/tablefilter.js"></script>
-    <script src="javascripts/tf-sort.js"></script>
-    -->
-    <!--node.js tablefilter module//////////////////////////////////-->
-    <!--
-    <script>
-        var tf = new TableFilter(document.querySelector('#resultsTable'), {
-            base_path: 'tablefilter/'
-        });
-        tf.init();
-    </script>
-
--->
-    <!--node.js tablefilter module//////////////////////////////////-->
-
+    <script src="javascripts/sortAndPag-t0d.js"></script>
+    
     <script>
 
         function clearTable() {
@@ -175,113 +161,6 @@
             ajaxCall.send("ssn=" + soc + "&dob=" + dob + "&lname=" + lastName + "&fname=" + firstName + "&occupation=" + occ + "&employer=" + empl + "&date=" + appDate);
 
         }
-
-        function sortTable(n) {
-            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementById("resultsTable");
-            switching = true;
-            //Set the sorting direction to ascending:
-            dir = "asc";
-            /*Make a loop that will continue until
-            no switching has been done:*/
-            while (switching) {
-                //start by saying: no switching is done:
-                switching = false;
-                rows = table.rows;
-                /*Loop through all table rows (except the
-                first, which contains table headers):*/
-                for (i = 1; i < (rows.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /*Get the two elements you want to compare,
-                    one from current row and one from the next:*/
-                    x = rows[i].getElementsByTagName("TD")[n];
-                    y = rows[i + 1].getElementsByTagName("TD")[n];
-                    /*check if the two rows should switch place,
-                    based on the direction, asc or desc:*/
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            //if so, mark as a switch and break the loop:
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            //if so, mark as a switch and break the loop:
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    /*If a switch has been marked, make the switch
-                    and mark that a switch has been done:*/
-                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                    switching = true;
-                    //Each time a switch is done, increase this count by 1:
-                    switchcount++;
-                } else {
-                    /*If no switching has been done AND the direction is "asc",
-                    set the direction to "desc" and run the while loop again.*/
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
-
-        function sortListUpDn() {
-            var list, i, switching, b, shouldSwitch, dir, switchcount = 0;
-            list = document.getElementById("sortUpDn-fname");
-            switching = true;
-            // Set the sorting direction to ascending:
-            dir = "asc";
-            // Make a loop that will continue until no switching has been done:
-            while (switching) {
-                // start by saying: no switching is done:
-                switching = false;
-                b = list.getElementsByTagName("li");
-                // Loop through all list-items:
-                for (i = 0; i < (b.length - 1); i++) {
-                    //start by saying there should be no switching:
-                    shouldSwitch = false;
-                    /* check if the next item should switch place with the current item,
-                    based on the sorting direction (asc or desc): */
-                    if (dir == "asc") {
-                        if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-                            /* if next item is alphabetically lower than current item,
-                            mark as a switch and break the loop: */
-                            shouldSwitch = true;
-                            break;
-                        }
-                    } else if (dir == "desc") {
-                        if (b[i].innerHTML.toLowerCase() < b[i + 1].innerHTML.toLowerCase()) {
-                            /* if next item is alphabetically higher than current item,
-                            mark as a switch and break the loop: */
-                            shouldSwitch = true;
-                            break;
-                        }
-                    }
-                }
-                if (shouldSwitch) {
-                    /* If a switch has been marked, make the switch
-                    and mark that a switch has been done: */
-                    b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                    switching = true;
-                    // Each time a switch is done, increase switchcount by 1:
-                    switchcount++;
-                } else {
-                    /* If no switching has been done AND the direction is "asc",
-                    set the direction to "desc" and run the while loop again. */
-                    if (switchcount == 0 && dir == "asc") {
-                        dir = "desc";
-                        switching = true;
-                    }
-                }
-            }
-        }
-
     </script>
 
 </body>
