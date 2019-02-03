@@ -7,9 +7,8 @@
     <meta charset="UTF-8">
 
     <link rel="stylesheet" href="../stylesheets/style.css" />
-
     <!--<link rel="stylesheet" href="../stylesheets/jstyle.css" />-->
-    <!--<script src="javascripts/paginate2-t0d.js"></script>-->
+
     <script src="tablefilter/dist/tablefilter/tablefilter.js"></script>
 
 </head>
@@ -51,7 +50,7 @@
             <button type="button" style="margin-top:1.2em" onclick="clearTable();showScanResults()">Search</button>
         </div>
     </div>
-   
+
     <table id="resultsTable">
         <thead>
             <tr style="background-color: #f2f2f2 !important">
@@ -65,7 +64,7 @@
             </tr>
         </thead>
         <tbody id="resultsTableBody">
-            <tr>
+            <tr style="display:none">
                 <th></th>
                 <th></th>
                 <th></th>
@@ -73,13 +72,13 @@
                 <th></th>
                 <th></th>
                 <th></th>
-                
+
             </tr>
         </tbody>
     </table>
 
-    <script src="javascripts/sortAndPag-t0d.js"></script>
-    
+    <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
+
     <script>
 
         function clearTable() {
@@ -153,6 +152,27 @@
 
                         });
                     });
+                    /*******tablefilter.js*************************************************************/
+                    var tf = new TableFilter('resultsTable', {
+                        base_path: 'tablefilter/dist/tablefilter/',
+                        extensions: [{
+                            name: 'sort',
+                            types: ['string', 'string', 'string', 'string', 'string', 'string', 'string'],
+                            //on_sort_loaded: startSimple,
+                            on_before_sort: function (o, col) {
+                                outputBefore = [o, col];
+                            },
+                            on_after_sort: function (o, col) {
+                                outputAfter = [o, col];
+                            }
+                        }],
+                        paging: {
+                            //length: 5,
+                            results_per_page: ['Results per page ', [15, 20, 25, 30, 35, 40, 45, 50]]
+                        }
+                    });
+                    tf.init();
+                    /*******tablefilter.js*************************************************************/
                 }
             };
             ajaxCall.open("POST", "/scan/results", true);
@@ -162,6 +182,8 @@
 
         }
     </script>
+
+    <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
 
 </body>
 
