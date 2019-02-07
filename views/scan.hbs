@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="../stylesheets/style.css" />
+    <!--<link rel="stylesheet" href="../stylesheets/style.css" />-->
     <!--<link rel="stylesheet" href="../stylesheets/jstyle.css" />-->
 
     <script src="tablefilter/dist/tablefilter/tablefilter.js"></script>
@@ -14,6 +14,7 @@
 </head>
 
 <body>
+
     {{> header }}
 
     <div id="search-form">
@@ -47,7 +48,7 @@
         </div>
 
         <div class="scan-fields">
-            <button type="button" style="margin-top:1.2em" onclick="clearTable();showScanResults()">Search</button>
+            <button type="button" style="margin-top:1.2em" onclick="clearTable(); clearCaption(); showScanResults()">Search</button>
         </div>
     </div>
 
@@ -80,7 +81,6 @@
     <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
 
     <script>
-
         function clearTable() {
             //if table has any data in it
             if (document.getElementById("resultsTableBody").rows[0].cells.length > 0) {
@@ -90,8 +90,11 @@
             }
         }
 
-        function showScanResults() {
+        function clearCaption() {
+            document.getElementById("resultsTable").deleteCaption();
+        }
 
+        function showScanResults() {
             var soc = document.getElementById("social-security").value;
             var dob = document.getElementById("dob").value;
             var lastName = document.getElementById("last-name").value;
@@ -99,21 +102,15 @@
             var occ = document.getElementById("occupation").value;
             var empl = document.getElementById("emp").value;
             var appDate = document.getElementById("application-date").value;
-
             var ajaxCall = new XMLHttpRequest();
-
             ajaxCall.onreadystatechange = function () {
-
                 if (ajaxCall.readyState == 4 && ajaxCall.status == 200) {
-
                     console.log('ajaxCall.responseText = ');
                     console.log(ajaxCall.responseText);
-
                     var jsonParsedData = ajaxCall.responseText;
                     var jsonResponse = JSON.parse(jsonParsedData);
                     console.log('jsonResponse =');
                     console.log(jsonResponse);
-
                     jsonResponse.forEach((i) => {//for each element of the jsonResponse array,
                         //get corresponding string entered in the application form
                         console.log("*************************************************");
@@ -122,7 +119,6 @@
                         i.forEach((n) => {
                             console.log('///////////////////');
                             console.log(n);
-
                             var dob_entry = n['dob']['S'];
                             var ssn_entry = n['ssn']['S'];
                             var lname_entry = n['lname']['S'];
@@ -130,9 +126,7 @@
                             var occ_entry = n['occupation']['S'];
                             var empl_entry = n['employer']['S'];
                             var appDate_entry = n['date']['S'];
-
                             var tableBody = document.getElementById("resultsTableBody");
-
                             var row = tableBody.insertRow(-1);
                             var cellSSN = row.insertCell(-1);
                             var cellDOB = row.insertCell(-1);
@@ -141,7 +135,6 @@
                             var cellOcc = row.insertCell(-1);
                             var cellEmp = row.insertCell(-1);
                             var cellAppDate = row.insertCell(-1);
-
                             cellSSN.innerHTML = ssn_entry;
                             cellDOB.innerHTML = dob_entry;
                             cellLname.innerHTML = lname_entry;
@@ -149,7 +142,6 @@
                             cellOcc.innerHTML = occ_entry;
                             cellEmp.innerHTML = empl_entry;
                             cellAppDate.innerHTML = appDate_entry;
-
                         });
                     });
                     /*******tablefilter.js*************************************************************/
@@ -158,7 +150,7 @@
                         extensions: [{
                             name: 'sort',
                             types: ['string', 'string', 'string', 'string', 'string', 'string', 'string'],
-                            //on_sort_loaded: startSimple,
+                            //    on_sort_loaded: startSimple,
                             on_before_sort: function (o, col) {
                                 outputBefore = [o, col];
                             },
@@ -167,20 +159,41 @@
                             }
                         }],
                         paging: {
-                            //length: 5,
-                            results_per_page: ['Results per page ', [15, 20, 25, 30, 35, 40, 45, 50]]
+                            length: 20,
+                            //results_per_page: ['Results per page ', [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]]
                         }
                     });
                     tf.init();
                     /*******tablefilter.js*************************************************************/
+                    var caption = document.getElementsByTagName("caption");
+                    var tbl = document.getElementById("resultsTable");
+                    var filterRow = tbl.childNodes[2].childNodes[1];
+
+                        if (tbl.childNodes[2].childNodes.length > 4) {//if there is more than 1 <tr class="fltrow"></tr>
+                            tbl.childNodes[2].removeChild(filterRow); //delete it
+                        }
+                    
+                    console.log('tbl.childNodes = ');
+                    console.log(tbl.childNodes);
+                    console.log('tbl.childNodes[2] = ');
+                    console.log(tbl.childNodes[2]);
+                    console.log('tbl.childNodes[2].childNodes = ');
+                    console.log(tbl.childNodes[2].childNodes);
+                    console.log('tbl.childNodes[2].childNodes[1] = ');
+                    console.log(tbl.childNodes[2].childNodes[1]);
+                    console.log('tbl.childNodes[2].childNodes.length = ');
+                    console.log(tbl.childNodes[2].childNodes.length);
                 }
             };
+
+
             ajaxCall.open("POST", "/scan/results", true);
             console.log('post request sent from scan.hbs')
             ajaxCall.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             ajaxCall.send("ssn=" + soc + "&dob=" + dob + "&lname=" + lastName + "&fname=" + firstName + "&occupation=" + occ + "&employer=" + empl + "&date=" + appDate);
 
         }
+
     </script>
 
     <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->

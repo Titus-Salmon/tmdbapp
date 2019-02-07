@@ -120,7 +120,7 @@ router.post('/results', function (req, res, next) {
         //  "S": Object.values(postBody)[1] //John
         //},
       },
-      Limit: 13, //sets the # of items scanned from entire database
+      //Limit: 13, //sets the # of items scanned from entire database
       //normally, this paramater would not be used, but i'm currently using it
       //to test if pagination is working.
       /******************************************************* *************/
