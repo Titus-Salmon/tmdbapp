@@ -48,7 +48,8 @@
         </div>
 
         <div class="scan-fields">
-            <button type="button" style="margin-top:1.2em" onclick="clearTable(); clearCaption(); showScanResults()">Search</button>
+            <button type="button" style="margin-top:1.2em"
+                onclick="clearTable(); clearCaption(); showScanResults()">Search</button>
         </div>
     </div>
 
@@ -65,7 +66,7 @@
             </tr>
         </thead>
         <tbody id="resultsTableBody">
-            <tr style="display:none">
+            <tr style="display: none !important">
                 <th></th>
                 <th></th>
                 <th></th>
@@ -81,17 +82,34 @@
     <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
 
     <script>
+        console.log('(document.getElementById("resultsTableBody").rows[0] ~~~~~~~> ');
+        console.log((document.getElementById("resultsTableBody").rows[0]));
+        console.log('(document.getElementById("resultsTableBody").rows[0].length ~~~~~~~> ');
+        console.log((document.getElementById("resultsTableBody").rows[0].length));
+        console.log('(document.getElementById("resultsTableBody").rows.length ~~~~~~~> ');
+        console.log((document.getElementById("resultsTableBody").rows.length));
+
+        console.log('Array.from((document.getElementById("resultsTableBody").rows[0]).length ~~~~~~~> ');
+        console.log(Array.from(document.getElementById("resultsTableBody").rows[0]).length);
+        console.log('(document.getElementById("resultsTableBody").rows[0].cells ===> ');
+        console.log((document.getElementById("resultsTableBody").rows[0].cells));
+
         function clearTable() {
-            //if table has any data in it
-            if (document.getElementById("resultsTableBody").rows[0].cells.length > 0) {
-                //clear the table
-                var tableBody = document.getElementById("resultsTableBody");
-                tableBody.innerHTML = "";
+            if (document.getElementById("resultsTableBody").rows.length > 0) {
+                //if table has any data in it
+                if (document.getElementById("resultsTableBody").rows[0].cells.length > 0) {
+                    //clear the table
+                    var tableBody = document.getElementById("resultsTableBody");
+                    tableBody.innerHTML = "";
+                }
             }
+
+            console.log('(document.getElementById("resultsTableBody").rows.length_inside_clearTable ~~~~~~~> ');
+            console.log((document.getElementById("resultsTableBody").rows.length));
         }
 
         function clearCaption() {
-            document.getElementById("resultsTable").deleteCaption();
+            document.getElementById("resultsTable").deleteCaption(); //clears table caption on click, otherwise caption gets duplicated
         }
 
         function showScanResults() {
@@ -160,19 +178,19 @@
                         }],
                         paging: {
                             length: 20,
-                            //results_per_page: ['Results per page ', [5, 10, 15, 20, 25, 30, 35, 40, 45, 50]]
+                            results_per_page: ['Results per page ', [20, 25, 30, 35, 40, 45, 50]]
                         }
                     });
                     tf.init();
                     /*******tablefilter.js*************************************************************/
-                    var caption = document.getElementsByTagName("caption");
+                    
                     var tbl = document.getElementById("resultsTable");
                     var filterRow = tbl.childNodes[2].childNodes[1];
 
-                        if (tbl.childNodes[2].childNodes.length > 4) {//if there is more than 1 <tr class="fltrow"></tr>
-                            tbl.childNodes[2].removeChild(filterRow); //delete it
-                        }
-                    
+                    if (tbl.childNodes[2].childNodes.length > 4) {//if there is more than 1 <tr class="fltrow"></tr>
+                        tbl.childNodes[2].removeChild(filterRow); //delete it
+                    }
+
                     console.log('tbl.childNodes = ');
                     console.log(tbl.childNodes);
                     console.log('tbl.childNodes[2] = ');

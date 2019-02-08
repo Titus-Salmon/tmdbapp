@@ -16,10 +16,10 @@ router.post('/results', function (req, res, next) {
   const postBody = req.body; //request.body is made by bodyparser.urlencoded, which parses the http message for sent data
   console.log('postBody=');
   console.log(postBody);
-  console.log('postBody[\"lname\"]');
-  console.log(postBody["lname"]);
-  console.log('postBody[\"fname\"]');
-  console.log(postBody["fname"]);
+  //console.log('postBody[\"lname\"]');
+  //console.log(postBody["lname"]);
+  //console.log('postBody[\"fname\"]');
+  //console.log(postBody["fname"]);
 
   /**SCAN and FILTER and PAGINATE(server-side) table******************************************************************************** */
   var AWS = require('aws-sdk');
@@ -73,7 +73,8 @@ router.post('/results', function (req, res, next) {
     filterExpArray.push(AppDate_exp);
   };
 
-  console.log('filterExpArray.length =' + filterExpArray.length)
+  console.log('filterExpArray.length =');
+  console.log(filterExpArray.length);
 
   if (filterExpArray.length > 1) {
     for (n = 0; n < (filterExpArray.length - 1); n++) {
@@ -82,23 +83,26 @@ router.post('/results', function (req, res, next) {
     }
   }
 
-  console.log('filterExpArray = ' + filterExpArray);
+  console.log('filterExpArray = ');
+  console.log(filterExpArray);
 
   function filterExpFunc() {
-    if (filterExpArray.length == 1) {
-      var fE = filterExpArray[0];
-      filterExpString.push(fE);
+    if (filterExpArray.length == 1) {//if base array that holds POST data has one element
+      var fE = filterExpArray[0];//call that element 'fE'
+      filterExpString.push(fE);//and push 'fE' into array that holds string for FilterExpression
     } else {
-      if (filterExpArray.length > 1) {
-        for (m = 0; m < filterExpArray.length - 1; m++) {
-          var fE = filterExpArray[m] += filterExpArray[m + 1];
-          filterExpString.push(fE)
+      if (filterExpArray.length > 1) {//if base array that holds POST data has MORE than one element
+        for (m = 0; m < filterExpArray.length - 1; m++) {//iterate through each of the elements in the array
+          var fE = filterExpArray[m] += filterExpArray[m + 1];//call each of them 'fE', in turn, and
+          filterExpString.push(fE)//push each of them into array that holds string for FilterExpression
         }
       }
     }
 
-    console.log('fE = ' + fE);
-    console.log('filterExpString = ' + filterExpString);
+    console.log('fE = ');
+    console.log(fE);
+    console.log('filterExpString = ');
+    console.log(filterExpString);
   }
 
   filterExpFunc();
@@ -131,53 +135,57 @@ router.post('/results', function (req, res, next) {
       FilterExpression: filterExpString[0]
     };
 
-    if (postBody["ssn"] !== '') {
-      params["ExpressionAttributeNames"]["#soc_sec"] = Object.keys(postBody)[0];
+    if (postBody["ssn"] !== '') {//if postBody not empty
+      params["ExpressionAttributeNames"]["#soc_sec"] = Object.keys(postBody)[0];//set value of params = to what was entered for postBody
       params["ExpressionAttributeValues"][":ssn"] = {
         "S": Object.values(postBody)[0]
       }
-    };
+    }
     if (postBody["dob"] !== '') {
       params["ExpressionAttributeNames"]["#d_o_b"] = Object.keys(postBody)[1];
       params["ExpressionAttributeValues"][":dob"] = {
         "S": Object.values(postBody)[1]
       }
-    };
+    }
     if (postBody["lname"] !== '') {
       params["ExpressionAttributeNames"]["#last_name"] = Object.keys(postBody)[2];
       params["ExpressionAttributeValues"][":lname"] = {
         "S": Object.values(postBody)[2]
       }
-    };
+    }
     if (postBody["fname"] !== '') {
       params["ExpressionAttributeNames"]["#first_name"] = Object.keys(postBody)[3];
       params["ExpressionAttributeValues"][":fname"] = {
         "S": Object.values(postBody)[3]
       }
-    };
+    }
     if (postBody["occupation"] !== '') {
       params["ExpressionAttributeNames"]["#occu_pation"] = Object.keys(postBody)[4];
       params["ExpressionAttributeValues"][":occupation"] = {
         "S": Object.values(postBody)[4]
       }
-    };
+    }
     if (postBody["employer"] !== '') {
       params["ExpressionAttributeNames"]["#empl_oyer"] = Object.keys(postBody)[5];
       params["ExpressionAttributeValues"][":employer"] = {
         "S": Object.values(postBody)[5]
       }
-    };
+    }
     if (postBody["date"] !== '') {
       params["ExpressionAttributeNames"]["#app_date"] = Object.keys(postBody)[6];
       params["ExpressionAttributeValues"][":date"] = {
         "S": Object.values(postBody)[6]
       }
-    };
+    }
 
-    console.log('params["ExpressionAttributeValues"] = ' + params["ExpressionAttributeValues"]); //{ ':lname': { S: 'Smith' }, ':fname': { S: 'John' } }
-    console.log('params["ExpressionAttributeNames"] = ' + params["ExpressionAttributeNames"]); //{ '#last_name': 'lname', '#first_name': 'fname' }
-    console.log('params["FilterExpression"] = ' + params["FilterExpression"]);
-    console.log('params = ' + params); //{ '#last_name': 'lname', '#first_name': 'fname' }
+    console.log('params["ExpressionAttributeValues"] = '); //{ ':lname': { S: 'Smith' }, ':fname': { S: 'John' } }
+    console.log(params["ExpressionAttributeValues"]);
+    console.log('params["ExpressionAttributeNames"] = '); //{ '#last_name': 'lname', '#first_name': 'fname' }
+    console.log(params["ExpressionAttributeNames"]);
+    console.log('params["FilterExpression"] = ');
+    console.log(params["FilterExpression"]);
+    console.log('params = '); //{ '#last_name': 'lname', '#first_name': 'fname' }
+    console.log(params); //{ '#last_name': 'lname', '#first_name': 'fname' }
 
     //************************************************************************************************ */
     //**BEGIN modified dynamodb basic scan to account for server-side pagination ***********************/
@@ -198,12 +206,13 @@ router.post('/results', function (req, res, next) {
           scanAccumulator.push(data.Items); //add 1st round of scan results to scanAccumulator
           //(BEFORE there is any LastEvaluatedKey)
           for (int = 0; int < (scanAccumulator.length); int++) {
+            console.log('(scanAccumulator.length - 1) - (int) =');
             console.log((scanAccumulator.length - 1) - (int));
-            console.log('scanAccumulator[(scanAccumulator.length-1) - (int)]');
+            console.log('scanAccumulator[(scanAccumulator.length-1) - (int)] =');
             console.log(scanAccumulator[(scanAccumulator.length - 1) - (int)]);
             //res.send(scanAccumulator[(scanAccumulator.length - 1) - (int)]);
           }
-          console.log('scanAccumulator=');
+          console.log('scanAccumulator =');
           console.log(scanAccumulator);
           //console.log(JSON.parse(scanAccumulator));
           res.send(scanAccumulator);
