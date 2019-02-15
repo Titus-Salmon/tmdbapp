@@ -9,6 +9,7 @@
     <!--<link rel="stylesheet" href="../stylesheets/style.css" />-->
     <!--<link rel="stylesheet" href="../stylesheets/jstyle.css" />-->
     <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="/tablefilter/dist/tablefilter/style/tablefilter.css">
 
     <script src="tablefilter/dist/tablefilter/tablefilter.js"></script>
 
@@ -18,161 +19,70 @@
 
     {{> header }}
 
-    <table id="searchFormT0d">
-
+    <table class="TF">
         <thead>
-            <tr class="form-inline" style="background-color: #f2f2f2 !important">
-                <th>
+            <tr class="fltrow" style="background-color: #f2f2f2 !important">
+                <td>
                     <label for="social-security">SSN</label>
-                    <input id="social-security" type="text" name="ssn">
-                </th>
-                <th>
+                    <input id="social-security" type="text" name="ssn" class="flt">
+                </td>
+                <td>
                     <label for="dob">DOB</label>
-                    <input id="dob" type="date" name="dob">
-                </th>
-                <th>
+                    <input id="dob" type="date" name="dob" class="flt">
+                </td>
+                <td>
                     <label for="last-name">Last Name</label>
-                    <input id="last-name" type="text" name="lname">
-                </th>
-                <th>
+                    <input id="last-name" type="text" name="lname" class="flt">
+                </td>
+                <td>
                     <label for="first-name">First Name</label>
-                    <input id="first-name" type="text" name="fname">
-                </th>
-                <th>
+                    <input id="first-name" type="text" name="fname" class="flt">
+                </td>
+                <td>
                     <label for="occupation">Occupation</label>
-                    <input id="occupation" type="text" name="occupation">
-                </th>
-                <th>
+                    <input id="occupation" type="text" name="occupation" class="flt">
+                </td>
+                <td>
                     <label for="emp">Employer</label>
-                    <input id="emp" type="text" name="employer">
-                </th>
-                <th>
+                    <input id="emp" type="text" name="employer" class="flt">
+                </td>
+                <td>
                     <label for="application-date">Application Date</label>
-                    <input id="application-date" type="date" name="date">
-                </th>
-                <th>
-                    <button type="button" style="margin-top:1.2em"
-                        onclick="clearTable(); clearCaption(); showScanResults()">Search</button>
-                </th>
+                    <input id="application-date" type="date" name="date" class="flt">
+                </td>
+                <td>
+                    <button type="button"
+                        onclick="clearTable(); clearCaption(); showScanResults()" class="flt">Search</button>
+                </td>
             </tr>
         </thead>
-        <!--
-        <tbody id="searchFormT0dBody">
-            <tr class="fltrow">
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="social-security">SSN</label>
-                        <input class="input-class" id="social-security" type="text" name="ssn">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="dob">DOB</label>
-                        <input class="input-class" id="dob" type="date" name="dob">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="last-name">Last Name</label>
-                        <input class="input-class" id="last-name" type="text" name="lname">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="first-name">First Name</label>
-                        <input class="input-class" id="first-name" type="text" name="fname">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="occupation">Occupation</label>
-                        <input class="input-class" id="occupation" type="text" name="occupation">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="emp">Employer</label>
-                        <input class="input-class" id="emp" type="text" name="employer">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <label class="label-class" for="application-date">Application Date</label>
-                        <input class="input-class" id="application-date" type="date" name="date">
-                    </div>
-                </th>
-                <th>
-                    <div class="scan-fields">
-                        <button type="button" style="margin-top:1.2em"
-                            onclick="clearTable(); clearCaption(); showScanResults()">Search</button>
-                    </div>
-                </th>
 
-            </tr>
-        </tbody>
-        -->
-        <!--
-        <div id="search-form">
-            <div class="scan-fields">
-                <label class="label-class" for="social-security">SSN</label>
-                <input class="input-class" id="social-security" type="text" name="ssn">
-            </div>
-            <div class="scan-fields">
-                <label class="label-class" for="dob">DOB</label>
-                <input class="input-class" id="dob" type="date" name="dob">
-            </div>
-            <div class="scan-fields">
-                <label class="label-class" for="last-name">Last Name</label>
-                <input class="input-class" id="last-name" type="text" name="lname">
-            </div>
-            <div class="scan-fields">
-                <label class="label-class" for="first-name">First Name</label>
-                <input class="input-class" id="first-name" type="text" name="fname">
-            </div>
-            <div class="scan-fields">
-                <label class="label-class" for="occupation">Occupation</label>
-                <input class="input-class" id="occupation" type="text" name="occupation">
-            </div>
-            <div class="scan-fields">
-                <label class="label-class" for="emp">Employer</label>
-                <input class="input-class" id="emp" type="text" name="employer">
-            </div>
-            <div class="scan-fields">
-                <label class="label-class" for="application-date">Application Date</label>
-                <input class="input-class" id="application-date" type="date" name="date">
-            </div>
-
-            <div class="scan-fields">
-                <button type="button" style="margin-top:1.2em"
-                    onclick="clearTable(); clearCaption(); showScanResults()">Search</button>
-            </div>
+        <div id="tableHideShow">
+            <table id="resultsTable" style="display: none !important">
+                <thead>
+                    <tr style="background-color: #f2f2f2">
+                        <th>SSN</th>
+                        <th>DOB</th>
+                        <th>Last Name</th>
+                        <th>First Name</th>
+                        <th>Occupation</th>
+                        <th>Employer</th>
+                        <th>Application Date</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsTableBody">
+                    <tr style="display: none !important">
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </tbody>
+            </table>
         </div>
--->
-        <table id="resultsTable">
-            <thead>
-                <tr style="background-color: #f2f2f2 !important">
-                    <th>SSN</th>
-                    <th>DOB</th>
-                    <th>Last Name</th>
-                    <th>First Name</th>
-                    <th>Occupation</th>
-                    <th>Employer</th>
-                    <th>Application Date</th>
-                </tr>
-            </thead>
-            <tbody id="resultsTableBody">
-                <tr style="display: none !important">
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-
-                </tr>
-            </tbody>
-        </table>
 
         <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
 
@@ -189,6 +99,7 @@
             console.log('(document.getElementById("resultsTableBody").rows[0].cells ===> ');
             console.log((document.getElementById("resultsTableBody").rows[0].cells));
 
+
             function clearTable() {
                 if (document.getElementById("resultsTableBody").rows.length > 0) {
                     //if table has any data in it
@@ -203,11 +114,14 @@
                 console.log((document.getElementById("resultsTableBody").rows.length));
             }
 
+
             function clearCaption() {
                 document.getElementById("resultsTable").deleteCaption(); //clears table caption on click, otherwise caption gets duplicated
             }
 
+
             function showScanResults() {
+
                 var soc = document.getElementById("social-security").value;
                 var dob = document.getElementById("dob").value;
                 var lastName = document.getElementById("last-name").value;
@@ -216,6 +130,7 @@
                 var empl = document.getElementById("emp").value;
                 var appDate = document.getElementById("application-date").value;
                 var ajaxCall = new XMLHttpRequest();
+
                 ajaxCall.onreadystatechange = function () {
                     if (ajaxCall.readyState == 4 && ajaxCall.status == 200) {
                         console.log('ajaxCall.responseText = ');
@@ -224,6 +139,7 @@
                         var jsonResponse = JSON.parse(jsonParsedData);
                         console.log('jsonResponse =');
                         console.log(jsonResponse);
+
                         jsonResponse.forEach((i) => {//for each element of the jsonResponse array,
                             //get corresponding string entered in the application form
                             console.log("*************************************************");
@@ -257,6 +173,7 @@
                                 cellAppDate.innerHTML = appDate_entry;
                             });
                         });
+
                         /*******tablefilter.js*************************************************************/
                         var tf = new TableFilter('resultsTable', {
                             base_path: 'tablefilter/dist/tablefilter/',
@@ -297,8 +214,8 @@
                         console.log('tbl.childNodes[2].childNodes.length = ');
                         console.log(tbl.childNodes[2].childNodes.length);
                     }
+                    document.getElementById("resultsTable").style.display = 'inline-block';
                 };
-
 
                 ajaxCall.open("POST", "/scan/results", true);
                 console.log('post request sent from scan.hbs')
@@ -306,7 +223,6 @@
                 ajaxCall.send("ssn=" + soc + "&dob=" + dob + "&lname=" + lastName + "&fname=" + firstName + "&occupation=" + occ + "&employer=" + empl + "&date=" + appDate);
 
             }
-
         </script>
 
         <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
