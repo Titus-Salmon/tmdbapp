@@ -148,6 +148,11 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
         console.log(postBody);
         console.log(Object.values(postBody)[0]);
 
+        /**GO TO SUCCESS PAGE */
+        res.render('successful-application', {
+          title: 'SUCCESS'
+        });
+
         //[2b] ELSE, if ssn DOES exist in database
       } else {
 
