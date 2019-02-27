@@ -51,8 +51,8 @@
                     <input id="application-date" type="date" name="date" class="flt">
                 </td>
                 <td>
-                    <button type="button"
-                        onclick="clearTable(); clearCaption(); showScanResults()" class="flt">Search</button>
+                    <button type="button" onclick="clearTable(); clearCaption(); showScanResults()"
+                        class="flt">Search</button>
                 </td>
             </tr>
         </thead>
@@ -221,6 +221,13 @@
                 console.log('post request sent from scan.hbs')
                 ajaxCall.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                 ajaxCall.send("ssn=" + soc + "&dob=" + dob + "&lname=" + lastName + "&fname=" + firstName + "&occupation=" + occ + "&employer=" + empl + "&date=" + appDate);
+
+                console.log('ajaxCall =');
+                console.log(ajaxCall);
+
+                //var regex = new RegExp('foo', 'i');
+
+                //console.log(regex.ignoreCase); // true
 
             }
         </script>

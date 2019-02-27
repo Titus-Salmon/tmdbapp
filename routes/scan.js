@@ -42,31 +42,31 @@ router.post("/results", function(req, res, next) {
 
   if (postBody["ssn"] !== "") {
     //if data input in html form not empty, push string for FilterExpression to filterExpArray
-    ssn_exp = "contains (#soc_sec, :ssn)";
+    ssn_exp = "begins_with (#soc_sec, :ssn)"; //changed from 'contains' to 'begin_with' to ensure scan searched from beginning of word, not anywhere within word
     filterExpArray.push(ssn_exp);
   }
   if (postBody["dob"] !== "") {
-    dob_exp = "contains (#d_o_b, :dob)";
+    dob_exp = "begins_with (#d_o_b, :dob)";
     filterExpArray.push(dob_exp);
   }
   if (postBody["lname"] !== "") {
-    lname_exp = "contains (#last_name, :lname)";
+    lname_exp = "begins_with (#last_name, :lname)";
     filterExpArray.push(lname_exp);
   }
   if (postBody["fname"] !== "") {
-    fname_exp = "contains (#first_name, :fname)";
+    fname_exp = "begins_with (#first_name, :fname)";
     filterExpArray.push(fname_exp);
   }
   if (postBody["occupation"] !== "") {
-    occ_exp = "contains (#occu_pation, :occupation)";
+    occ_exp = "begins_with (#occu_pation, :occupation)";
     filterExpArray.push(occ_exp);
   }
   if (postBody["employer"] !== "") {
-    empl_exp = "contains (#empl_oyer, :employer)";
+    empl_exp = "begins_with (#empl_oyer, :employer)";
     filterExpArray.push(empl_exp);
   }
   if (postBody["date"] !== "") {
-    AppDate_exp = "contains (#app_date, :date)";
+    AppDate_exp = "begins_with (#app_date, :date)";
     filterExpArray.push(AppDate_exp);
   }
 
@@ -157,6 +157,8 @@ router.post("/results", function(req, res, next) {
       params["ExpressionAttributeValues"][":lname"] = {
         S: Object.values(postBody)[2]
       };
+      console.log('Object.values(postBody)[2] =');
+      console.log(Object.values(postBody)[2]); //i.e., Smith
     }
     if (postBody["fname"] !== "") {
       params["ExpressionAttributeNames"]["#first_name"] = Object.keys(

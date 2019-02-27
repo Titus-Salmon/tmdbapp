@@ -11,7 +11,10 @@ router.get('/', function (req, res, next) {
 router.post('/formPost', (req, res, next) => { //take POST request data from teamster apply page &:
   //check to see if ssn entered already exists in db, & if not:
   //put POST request data into database table
-  const postBody = req.body;
+  const postBody =  req.body;
+
+  //var regex = new RegExp('foo', 'i');
+  //console.log(regex.ignoreCase); // true
 
   console.log('Object.values(postBody)[0][21] =');
   console.log(Object.values(postBody)[0][21]); //social security number
@@ -62,6 +65,9 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
             },
             lname: {
               'S': Object.values(postBody)[0][2]
+            },
+            lname_lowercase: {
+              'S': Object.values(postBody)[0][2].toLowerCase()
             },
             fname: {
               'S': Object.values(postBody)[0][3]
