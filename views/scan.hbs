@@ -180,7 +180,11 @@
 
                         /*******tablefilter.js*************************************************************/
                         var tf = new TableFilter('resultsTable', {
+                            grid_layout: true,
+                            grid_width: '1100px',
                             base_path: 'tablefilter/dist/tablefilter/',
+                            rows_counter: true,
+                            rows_counter_text: "Displayed rows: ",
                             extensions: [{
                                 name: 'sort',
                                 types: ['string', 'string', 'string', 'string', 'string', 'string', 'string'],
