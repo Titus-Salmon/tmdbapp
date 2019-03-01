@@ -24,6 +24,13 @@ table {
   border: 1px solid #ddd;
 }
 */
+
+table {
+    
+  width: 100% !important;
+  display: table !important;
+}
+
 th {
   cursor: pointer;
 }
@@ -42,6 +49,7 @@ tr:nth-child(even) {
   width: 10%;
 }
 
+/*
 @media screen and (max-width: 1600px) {
   table {
     
@@ -52,7 +60,7 @@ tr:nth-child(even) {
 
 @media screen and (max-width: 991px) {
 
-  /* start of large tablet styles */
+  // start of large tablet styles
   table {
     
     width: 900px;
@@ -62,7 +70,7 @@ tr:nth-child(even) {
 
 @media screen and (max-width: 767px) {
 
-  /* start of medium tablet styles */
+  // start of medium tablet styles 
   table {
     
     width: 700px;
@@ -72,13 +80,14 @@ tr:nth-child(even) {
 
 @media screen and (max-width: 479px) {
 
-  /* start of phone styles */
+  // start of phone styles
   table {
     
     width: 400px;
     
   }
 }
+*/
 
 /*******pagination styles*******************************/
 /*

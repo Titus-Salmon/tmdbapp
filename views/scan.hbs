@@ -51,7 +51,8 @@
                     <input id="application-date" type="date" name="date" class="flt">
                 </td>
                 <td>
-                    <button type="button" onclick="clearTable(); clearCaption(); showScanResults()"
+                    <button type="button"
+                        onclick="clearTable(); clearCaption(); showScanResults(); tf.destroy(); deleteFirstRow();"
                         class="flt">Search</button>
                 </td>
             </tr>
@@ -84,9 +85,41 @@
             </table>
         </div>
 
-        <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
-
         <script>
+
+            var filtersConfig = {
+                base_path: 'tablefilter/dist/tablefilter/',
+                grid_layout: true,
+                alternate_rows: false,
+                btn_reset: true,
+                rows_counter: true,
+                rows_counter_text: "Displayed rows: ",
+                loader: true,
+                status_bar: true,
+                /*col_1: 'select',
+                col_2: 'select',
+                col_widths: [
+                    "150px", "70px", "70px",
+                    "120px", "120px", "100px",
+                    "100px", "100px", "100px"
+                ],*/
+                col_types: ['string', 'string', 'string', 'string', 'string', 'string', 'string'],
+                extensions: [{
+                    name: 'sort',
+                }],
+                paging: {
+                    length: 20,
+                    results_per_page: ['Results per page ', [20, 25, 30, 35, 40, 45, 50]]
+                },
+            };
+
+            var tf = new TableFilter('resultsTable', filtersConfig);
+            //tf.destroy();
+            //tf.init();
+            //tf.destroy();
+
+
+
             console.log('(document.getElementById("resultsTableBody").rows[0] ~~~~~~~> ');
             console.log((document.getElementById("resultsTableBody").rows[0]));
             console.log('(document.getElementById("resultsTableBody").rows[0].length ~~~~~~~> ');
@@ -113,12 +146,18 @@
                 console.log('(document.getElementById("resultsTableBody").rows.length_inside_clearTable ~~~~~~~> ');
                 console.log((document.getElementById("resultsTableBody").rows.length));
             }
-
+            /**************************************************************************************************/
+            /*deleteFirstRow is needed because tablefilter's grid-layout option kept inserting additional empty
+            row upon consecutive searches*/
+            function deleteFirstRow() {
+                if (document.getElementById("resultsTableBody").rows.length > 0)
+                    document.getElementById("resultsTableBody").deleteRow(0);
+            }
+            /**************************************************************************************************/
 
             function clearCaption() {
                 document.getElementById("resultsTable").deleteCaption(); //clears table caption on click, otherwise caption gets duplicated
             }
-
 
             function showScanResults() {
 
@@ -179,46 +218,30 @@
                         });
 
                         /*******tablefilter.js*************************************************************/
-                        var tf = new TableFilter('resultsTable', {
-                            grid_layout: true,
-                            grid_width: '1100px',
-                            base_path: 'tablefilter/dist/tablefilter/',
-                            rows_counter: true,
-                            rows_counter_text: "Displayed rows: ",
-                            extensions: [{
-                                name: 'sort',
-                                types: ['string', 'string', 'string', 'string', 'string', 'string', 'string'],
-                                //    on_sort_loaded: startSimple,
-                                on_before_sort: function (o, col) {
-                                    outputBefore = [o, col];
-                                },
-                                on_after_sort: function (o, col) {
-                                    outputAfter = [o, col];
-                                }
-                            }],
-                            paging: {
-                                length: 20,
-                                results_per_page: ['Results per page ', [20, 25, 30, 35, 40, 45, 50]]
-                            }
-                        });
-                        tf.init();
+                        //tf.destroy();
+                        tf.init(); //tf.init() must be down here, otherwise if it is up with the rest of the tablefilter.js script,
+                        //search results keep duplicating table components when clicking 'search' button
                         /*******tablefilter.js*************************************************************/
+
+
+                        var ResultsTableBody = document.getElementById("resultsTableBody");
+                        console.log('ResultsTableBody = ');
+                        console.log(ResultsTableBody);
+                        console.log('ResultsTableBody[0] = ');
+                        console.log(ResultsTableBody[0]);
 
                         var tbl = document.getElementById("resultsTable");
                         var filterRow = tbl.childNodes[2].childNodes[1];
+                        console.log('tbl = ');
+                        console.log(tbl);
 
                         if (tbl.childNodes[2].childNodes.length > 4) {//if there is more than 1 <tr class="fltrow"></tr>
                             tbl.childNodes[2].removeChild(filterRow); //delete it
                         }
-
                         console.log('tbl.childNodes = ');
                         console.log(tbl.childNodes);
-                        console.log('tbl.childNodes[2] = ');
-                        console.log(tbl.childNodes[2]);
                         console.log('tbl.childNodes[2].childNodes = ');
                         console.log(tbl.childNodes[2].childNodes);
-                        console.log('tbl.childNodes[2].childNodes[1] = ');
-                        console.log(tbl.childNodes[2].childNodes[1]);
                         console.log('tbl.childNodes[2].childNodes.length = ');
                         console.log(tbl.childNodes[2].childNodes.length);
                     }
@@ -232,15 +255,9 @@
 
                 console.log('ajaxCall =');
                 console.log(ajaxCall);
-
-                //var regex = new RegExp('foo', 'i');
-
-                //console.log(regex.ignoreCase); // true
-
             }
-        </script>
 
-        <!--<script src="javascripts/sortAndPag-t0d.js"></script>-->
+        </script>
 
 </body>
 

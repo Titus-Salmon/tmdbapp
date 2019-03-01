@@ -304,6 +304,7 @@ div.popUpFilter:before {
     position: relative
 }
 
+/*
 div.grd_Cont {
     -webkit-box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
     -moz-box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
@@ -314,6 +315,24 @@ div.grd_Cont {
     background-color: #c8e0fb;
     border: 1px solid #99bbe8;
 }
+*/
+
+/*t0d*/
+div.grd_Cont {
+    -webkit-box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
+    -moz-box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
+    box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    /*background-color: #c8e0fb;*/
+
+    background-color: #f2f2f2;
+
+    border: 1px solid #99bbe8;
+}
+
+/*t0d*/
 
 div.grd_Cont .fltrow {
     background-color: transparent
@@ -344,6 +363,7 @@ div.grd_Cont .sort-arrow {
     position: initial
 }
 
+/*
 div.grd_tblCont {
     height: 400px;
     width: 800px;
@@ -351,6 +371,18 @@ div.grd_tblCont {
     overflow-x: auto;
     overflow-y: scroll
 }
+*/
+
+/*t0d*/
+div.grd_tblCont {
+    height: 400px;
+    width: 100%;
+    background: #fff;
+    overflow-x: auto;
+    overflow-y: scroll
+}
+
+/*t0d*/
 
 div.grd_headTblCont {
     display: block;
@@ -358,7 +390,11 @@ div.grd_headTblCont {
     height: auto;
     overflow: hidden;
     border-bottom: 1px solid #99bbe8;
-    background-color: #c8e0fb
+    /*background-color: #c8e0fb;*/
+
+    /*t0d*/
+    background-color: #f2f2f2;
+    /*t0d*/
 }
 
 div.grd_tblCont table,
@@ -372,7 +408,12 @@ div.grd_tblCont table th,
 div.grd_headTblCont table th,
 div.grd_headTblCont table td {
     height: 35px;
-    background-color: #c8e0fb;
+    /*background-color: #c8e0fb;*/
+
+    /*t0d*/
+    background-color: #f2f2f2;
+    /*t0d*/
+
     padding: .1em .5em;
     color: #333;
     border-right: 1px solid #99bbe8 !important;
@@ -395,7 +436,12 @@ div.grd_tblCont table td {
     clear: both;
     width: auto;
     height: 35px;
-    background-color: #c8e0fb;
+    /*background-color: #c8e0fb;*/
+
+    /*t0d*/
+    background-color: #f2f2f2;
+    /*t0d*/
+
     margin: 0;
     padding: 1px 3px 1px 3px;
     border-top: 1px solid #99bbe8;
@@ -459,6 +505,7 @@ div.grd_tblCont table td {
     padding: 8px 15px 0 15px;
     vertical-align: top;
 }
+
 /***********t0d***********************************/
 
 .helpBtn:hover {
