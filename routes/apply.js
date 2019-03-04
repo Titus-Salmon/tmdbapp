@@ -136,8 +136,13 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
         };
         //if ssn does not already exist in table do dyn.putItem
         dyn.putItem(params, function (err, data) {
-          if (err) console.log(err); // an error occurred
-          else console.log(data); // successful response
+          if (err) {console.log(err)} // an error occurred
+          else {
+          /**GO TO SUCCESS PAGE */
+          res.render('successful-application', {
+          title: 'SUCCESS'
+        });
+            console.log(data)} // successful response
         });
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -149,9 +154,9 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
         console.log(Object.values(postBody)[0]);
 
         /**GO TO SUCCESS PAGE */
-        res.render('successful-application', {
-          title: 'SUCCESS'
-        });
+        //res.render('successful-application', {
+        //  title: 'SUCCESS'
+        //});
 
         //[2b] ELSE, if ssn DOES exist in database
       } else {

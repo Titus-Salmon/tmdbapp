@@ -26,7 +26,11 @@ table {
 */
 
 table {
-    
+
+  -webkit-box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
+  -moz-box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
+  box-shadow: 4px 4px 10px 0 rgba(50, 50, 50, 0.75);
+
   width: 100% !important;
   display: table !important;
 }
