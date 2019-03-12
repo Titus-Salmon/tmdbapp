@@ -9,7 +9,11 @@ var logger = require('morgan');
 
 const homeRouter = require('./routes/home'); //t0d
 const scanRouter = require('./routes/scan'); //t0d
+const scan_editRouter = require('./routes/scan-edit'); //t0d
 const applyRouter = require('./routes/apply'); //t0d
+const editRouter = require('./routes/edit'); //t0d
+const scan_edit_redirectRouter = require('./routes/scan-edit-redirect'); //t0d
+const edit_entryRouter = require('./routes/edit-entry'); //t0d
 
 var app = express();
 
@@ -45,8 +49,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 //app.use('/users', usersRouter);
 
 app.use('/', homeRouter); //t0d
-app.use('/scan', scanRouter); //t0d
 app.use('/apply', applyRouter); //t0d
+app.use('/scan', scanRouter); //t0d
+app.use('/scan-edit', scan_editRouter); //t0d
+app.use('/edit', editRouter); //t0d
+app.use('/scan-edit-redirect', scan_edit_redirectRouter); //t0d
+app.use('/edit-entry', edit_entryRouter); //t0d
+
 
 
 // catch 404 and forward to error handler

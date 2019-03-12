@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 /* on browser's GET request, render apply page. */
+// '/apply' is automatically assumed for '/'
 router.get('/', function (req, res, next) {
   res.render('apply', {
     title: 'Application Form'
@@ -11,14 +12,12 @@ router.get('/', function (req, res, next) {
 router.post('/formPost', (req, res, next) => { //take POST request data from teamster apply page &:
   //check to see if ssn entered already exists in db, & if not:
   //put POST request data into database table
-  const postBody =  req.body;
-
-  //var regex = new RegExp('foo', 'i');
-  //console.log(regex.ignoreCase); // true
+  const postBody = req.body;
 
   console.log('Object.values(postBody)[0][21] =');
   console.log(Object.values(postBody)[0][21]); //social security number
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //the following puts 'postBody' json into dynamodb database, IF ssn not duplicated/////////////////////////////////////////
   //can/should this be made more modular? <--maybe not...
   var AWS = require('aws-sdk');
@@ -136,16 +135,21 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
         };
         //if ssn does not already exist in table do dyn.putItem
         dyn.putItem(params, function (err, data) {
-          if (err) {console.log(err)} // an error occurred
+          if (err) {
+            console.log(err)
+          } // an error occurred
           else {
-          /**GO TO SUCCESS PAGE */
-          res.render('successful-application', {
-          title: 'SUCCESS'
-        });
-            console.log(data)} // successful response
+            /**GO TO SUCCESS PAGE */
+            res.render('successful-application', {
+              title: 'SUCCESS'
+            });
+            console.log(data)
+          } // successful response
         });
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
         for (n = 0; n < 24; n++) {
           console.log(Object.values(postBody)[0][n]);
         }
@@ -153,12 +157,6 @@ router.post('/formPost', (req, res, next) => { //take POST request data from tea
         console.log(postBody);
         console.log(Object.values(postBody)[0]);
 
-        /**GO TO SUCCESS PAGE */
-        //res.render('successful-application', {
-        //  title: 'SUCCESS'
-        //});
-
-        //[2b] ELSE, if ssn DOES exist in database
       } else {
 
         res.render('ssn-error', {
