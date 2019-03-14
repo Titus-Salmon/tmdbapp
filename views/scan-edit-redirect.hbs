@@ -47,8 +47,7 @@
                     <input id="application-date" type="date" name="date" class="flt">
                 </td>
                 <td>
-                    <button type="button" onclick="clearTable(); clearCaption(); showScanResults(); deleteFirstRow();"
-                        class="flt">Search</button>
+                    <button type="button" onclick="showScanResults();" class="flt">Search</button>
                 </td>
                 <td>
                     <button type="button" onclick="sendEditData();" class="flt">Edit</button>
@@ -88,6 +87,10 @@
 
             var filtersConfig = {
                 base_path: 'tablefilter/dist/tablefilter/',
+                paging: {
+                    length: 20,
+                    results_per_page: ['Results per page ', [20, 25, 30, 35, 40, 45, 50]]
+                },
                 grid_layout: true,
                 alternate_rows: false,
                 btn_reset: true,
@@ -100,10 +103,7 @@
                 extensions: [{
                     name: 'sort',
                 }],
-                paging: {
-                    length: 20,
-                    results_per_page: ['Results per page ', [20, 25, 30, 35, 40, 45, 50]]
-                },
+
             };
 
             var tf = new TableFilter('resultsTable', filtersConfig);
@@ -122,11 +122,14 @@
 
 
             function clearTable() {
+                tf.clearFilters(); //needed to reset the bottom pagination fields ('Rows', 'Page', and 'Results per page'),
+                //otherwise they don't update correctly (tablefilter method)
                 if (document.getElementById("resultsTableBody").rows.length > 0) {
                     //if table has any data in it
-                    tf.destroy();
+                    tf.destroy(); //1st, destroy tablefilter table (tablefilter method)
                     if (document.getElementById("resultsTableBody").rows[0].cells.length > 0) {
-                        //clear the table
+
+                        //clear the table (not connected to tablefilter)
                         var tableBody = document.getElementById("resultsTableBody");
                         tableBody.innerHTML = "";
                     }
@@ -145,11 +148,15 @@
             }
             /**************************************************************************************************/
 
-            function clearCaption() {
-                document.getElementById("resultsTable").deleteCaption(); //clears table caption on click, otherwise caption gets duplicated
-            }
+            //function clearCaption() {
+            //    document.getElementById("resultsTable").deleteCaption(); //clears table caption on click, otherwise caption gets duplicated
+            //}
 
             function showScanResults() {
+
+                clearTable();
+                deleteFirstRow();
+
                 var soc = document.getElementById("social-security").value;
                 var dob = document.getElementById("dob").value;
                 var lastName = document.getElementById("last-name").value;
@@ -172,6 +179,11 @@
                         console.log(jsonResponse.length);
                         console.log('jsonResponse[0].length =');
                         console.log(jsonResponse[0].length);
+
+                        if (jsonResponse[0].length == 0) { //if search results are empty, send alert, then reload page
+                            alert('NO SEARCH RESULTS');
+                            location.reload();
+                        }
 
                         jsonResponse.forEach((i) => {//for each element of the jsonResponse array,
                             //get corresponding string entered in the application form

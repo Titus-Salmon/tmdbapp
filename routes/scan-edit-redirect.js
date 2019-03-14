@@ -295,42 +295,6 @@ router.post("/ShowDB", function (req, res, next) {
 
         }
     }
-    //return next();
-    //res.clearCookie('Editable');
 });
-
-
-/*********************************************************************************************************/
-/*********************************************************************************************************/
-//begin EDIT DATABASE
-/*********************************************************************************************************/
-/*********************************************************************************************************/
-
-//**Take POST request from browser & send POST response back after editing database*/
-//'/scan-edit-redirect/Edited' is automatically assumed for '/Edited', so in scan-edit-redirect.hbs, we have to send POST request
-//to /scan-edit-redirect/Edited ... confusing, but critical to understand.
-/*
-router.post("/EditEntry", function (request, response, next) {
-    
-    const postBodyEditEntry = request.body; //request.body is made by bodyparser.urlencoded, which parses the http message for sent data
-
-    console.log("postBodyEditEntry=");
-    console.log(postBodyEditEntry);
-    console.log('Object.keys(postBodyEditEntry)[0]=');
-    console.log(Object.keys(postBodyEditEntry)[0]);
-    console.log('Object.values(postBodyEditEntry)[0]=');
-    console.log(Object.values(postBodyEditEntry)[0]);
-
-    response.redirect("localhost:3000/apply", {
-        title: "Edit-t0d"
-    });
-
-});
-*/
-/*********************************************************************************************************/
-/*********************************************************************************************************/
-//end EDIT DATABASE
-/*********************************************************************************************************/
-/*********************************************************************************************************/
 
 module.exports = router;

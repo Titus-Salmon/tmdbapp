@@ -1,7 +1,7 @@
 (window.webpackJsonp = window.webpackJsonp || []).push([
     [0], {
         440: function (t, e, n) {
-            var r = {/*
+            var r = {
                 "./array": 20,
                 "./array.js": 20,
                 "./const": 4,
@@ -14,8 +14,8 @@
                 "./emitter.js": 93,
                 "./event": 5,
                 "./event.js": 5,
-                "./extensions/advancedGrid/adapterEzEditTable": 442,
-                "./extensions/advancedGrid/adapterEzEditTable.js": 442,
+                //"./extensions/advancedGrid/adapterEzEditTable": 442,
+                //"./extensions/advancedGrid/adapterEzEditTable.js": 442,
                 "./extensions/advancedGrid/advancedGrid": 447,
                 "./extensions/advancedGrid/advancedGrid.js": 447,
                 "./extensions/colOps/colOps": 446,
@@ -25,14 +25,14 @@
                 "./extensions/filtersVisibility/filtersVisibility": 444,
                 "./extensions/filtersVisibility/filtersVisibility.js": 444,
                 "./extensions/sort/adapterSortabletable": 441,
-                "./extensions/sort/adapterSortabletable.js": 441,*/
+                "./extensions/sort/adapterSortabletable.js": 441,
 
                 "./extensions/sort/sort": 443,
                 "./extensions/sort/sort.js": 443,
 
                 //"./extensions/ezEditTable/ezEditTable": 442,
                 //"./extensions/ezEditTable/ezEditTable.js": 442,
-                /*
+
                 "./feature": 10,
                 "./feature.js": 10,
                 "./modules/alternateRows": 78,
@@ -88,7 +88,7 @@
                 "./tablefilter": 127,
                 "./tablefilter.js": 127,
                 "./types": 3,
-                "./types.js": 3,*/
+                "./types.js": 3,
             };
 
             function webpackContext(t) {

@@ -286,6 +286,12 @@ router.post("/results", function (req, res, next) {
             console.log("scanAccumulator =");
             console.log(scanAccumulator);
             //console.log(JSON.parse(scanAccumulator));
+
+            console.log('scanAccumulator.length=');
+            console.log(scanAccumulator.length);
+            console.log('scanAccumulator[0].length=');
+            console.log(scanAccumulator[0].length);
+
             res.send(scanAccumulator);
           }
         }
